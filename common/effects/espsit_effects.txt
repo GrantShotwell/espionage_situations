@@ -1,0 +1,4 @@
+
+espsit_operation_resources_events = {
+	# TODO
+}

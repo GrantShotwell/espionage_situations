@@ -1,0 +1,91 @@
+
+# Operation Ideas:
+# * These situations should happen on their own, too.
+# - Steal Technology+
+# - Decrease Stablility
+# - Arm Rebellion (super duper hard, 80 infiltration and expensive)
+# - Increase Crime (easier for syndicates?)
+# - Spawn Privateers+ (stronger, multiple locations)
+# - Diplomatic Incident+ (break apart federations, allies)
+
+@diff_t0 = 4
+@diff_t1 = 5
+@diff_t2 = 6
+@diff_t3 = 7
+@diff_t4 = 8
+@diff_t5 = 9
+@diff_t6 = 10
+@diff_t7 = 11
+@diff_t8 = 12
+@diff_t9 = 13
+
+# How the operation situations should generally work:
+#  1. The situation is caused by the last stage.
+#  2. The progress of the situation during the last stage determines the operation's success.
+#     (lower progress is better for the infiltrator, worse for infiltrated)
+
+## Steal Resources (events 1000) ##
+operation_steal_resources = {
+	target = none
+	categories = { op_cat_subterfuge op_cat_economy }
+	picture = GFX_evt_pirate_armada
+	desc = operation_steal_resources_desc
+	stages = 3
+	spy_power_cost = 50
+
+	resources = {
+		category = operations
+		cost = {
+			influence = 100
+		}
+		upkeep = {
+			influence = 0.2
+		}
+	}
+
+	potential = {
+		target = { is_primitive = no }
+	}
+
+	allow = {
+		# TODO: Disallow if already in-progress by another empire?
+		custom_tooltip = {
+			is_running_espionage_operation = no
+			fail_text = operation_one_at_a_time
+		}
+	}
+
+	# Stage 1: Infiltrate the planet.
+	# Mostly hands-off during this part, but fail events happen here.
+	stage = {
+		difficulty = @diff_t0
+		icon = GFX_espionage_chapter_icon_target
+		event = situation_operation.1100
+	}
+
+	# Stage 2: Start the situation on enemy.
+	# Infiltrated wants faster sitation progress so the operation ends with a higher progress.
+	# Infiltrator wants successful rolls so the operation ends with a lower situation progress.
+	stage = {
+		difficulty = @diff_t0
+		icon = GFX_espionage_chapter_icon_motion
+		event = situation_operation.1200
+	}
+
+	# Result Stage
+	# This exists to fire the final event after successfull rolls from Stage 2.
+	stage = {
+		difficulty = @diff_t0
+		icon = GFX_espionage_chapter_icon_success
+		event = situation_operation.1300
+	}
+
+	on_roll_failed = {
+		# Add score from rolls, and fire random events.
+		standard_espionage_operation_on_roll_failed = { RANDOM_EVENTS = espsit_operation_resources_events }
+	}
+
+	on_create = {
+		#
+	}
+}

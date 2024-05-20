@@ -1,0 +1,176 @@
+namespace = situation_operation
+
+@StealResourcesTimer = 10
+
+## Steal Resources, Stage 1 ##
+espionage_operation_event = {
+	id = situation_operation.1100
+	title = situation_operation.1100.name
+	desc = situation_operation.1100.desc
+	picture = GFX_evt_sabotaged_ship
+	show_sound = event_default
+	is_triggered_only = yes
+	espionage_operation = yes
+
+	option = {
+		name = UNFORTUNATE
+		trigger = {
+			NOT = { exists = event_target:easy }
+			NOT = { exists = event_target:norm }
+			NOT = { exists = event_target:hard }
+		}
+		destroy_espionage_operation = this
+	}
+
+	option = {
+		name = situation_operation.1100.option.easy
+		trigger = { exists = event_target:easy }
+		hidden_effect = {
+			event_target:easy = {
+				set_planet_flag = operation_resource_target@root
+			}
+		}
+	}
+
+	option = {
+		name = situation_operation.1100.option.norm
+		trigger = { exists = event_target:norm }
+		hidden_effect = {
+			event_target:norm = {
+				set_planet_flag = operation_resource_target@root
+			}
+		}
+	}
+
+	option = {
+		name = situation_operation.1100.option.hard
+		trigger = { exists = event_target:hard }
+		hidden_effect = {
+			event_target:hard = {
+				set_planet_flag = operation_resource_target@root
+			}
+		}
+	}
+
+	immediate = {
+		# Stop operations rolls until option is picked.
+		set_espionage_operation_progress_locked = yes
+		# Select planets to give as options to the player.
+		from = {
+			random_planet_within_border = {
+				limit = {
+					is_owned_by = from
+					num_pops <= 25
+				}
+				save_event_target_as = easy
+			}
+			random_planet_within_border = {
+				limit = {
+					is_owned_by = from
+					OR = {
+						NOT = { exists = event_target:easy }
+						NOT = { is_planet = event_target:easy }
+					}
+					num_pops > 25
+					num_pops < 75
+				}
+				save_event_target_as = norm
+			}
+			random_planet_within_border = {
+				limit = {
+					is_owned_by = from
+					OR = {
+						NOT = { exists = event_target:easy }
+						NOT = { is_planet = event_target:easy }
+					}
+					OR = {
+						NOT = { exists = event_target:norm }
+						NOT = { is_planet = event_target:norm }
+					}
+					num_pops >= 75
+				}
+				save_event_target_as = hard
+			}
+		}
+	}
+
+	after = {
+		# Start operation rolls.
+		set_espionage_operation_progress_locked = no
+	}
+}
+
+## Steal Resources, Stage 2 ##
+espionage_operation_event = {
+	id = situation_operation.1200
+	title = situation_operation.1200.name
+	desc = situation_operation.1200.desc
+	picture = GFX_evt_sabotaged_ship
+	show_sound = event_default
+	is_triggered_only = yes
+	espionage_operation = yes
+
+	option = {
+		name = LAUNCH_OPERATION
+	}
+
+	immediate = {
+		# Stop operations rolls until option is picked.
+		set_espionage_operation_progress_locked = yes
+		# Save flagged planet as event scope for localization.
+		from = {
+			random_owned_planet = {
+				limit = { has_planet_flag = operation_resource_target@root }
+				save_event_target_as = selected_planet
+			}
+		}
+	}
+
+	after = {
+		# Start the situation on the enemy planet.
+		# TODO
+		# Start operation rolls.
+		set_espionage_operation_progress_locked = no
+	}
+}
+
+## Steal Resources, Result Stage ##
+espionage_operation_event = {
+	id = situation_operation.1900
+	title = situation_operation.1900.name
+	desc = situation_operation.1900.desc
+	picture = GFX_evt_sabotaged_ship
+	show_sound = event_espionage_concluded
+	is_triggered_only = yes
+
+	option = {
+		name = situation_operation.1900.option.take
+	}
+
+	option = {
+		name = situation_operation.1900.option.destroy
+	}
+
+	immediate = {
+		# Save flagged planet as event scope for localization.
+		from = {
+			random_owned_planet = {
+				limit = { has_planet_flag = operation_resource_target@root }
+				save_event_target_as = selected_planet
+			}
+		}
+	}
+
+	after = {
+		# Delay repeating this operation.
+		fromfrom.spynetwork = {
+			set_saved_date = {
+				key = recently_stole_resources
+				days_from_present = @StealResourcesTimer
+				expires = @StealResourcesTimer
+			}
+		}
+		# End this operation.
+		destroy_espionage_operation = this
+	}
+}
