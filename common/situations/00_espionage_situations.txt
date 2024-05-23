@@ -1,0 +1,103 @@
+
+# Steal Resources (target)
+situation_espionage_resources = {
+	picture = GFX_evt_ship_offloading_cargo
+	category = positive
+	complete_icon = GFX_situation_outcome_positive
+	complete_icon_frame = GFX_situation_outcome_frame_green
+
+	on_monthly = {
+		#
+	}
+
+	on_progress_complete = {
+		# End this situation.
+		destroy_situation = this
+	}
+
+	on_abort = {
+		target = {
+			random_espionage_operation = {
+				limit = { has_espionage_operation_flag = operation_resource_attacker@this }
+				save_event_target_as = espionage_operation
+			}
+			if = {
+				limit = { exists = event_target:espionage_operation }
+				event_target:espionage_operation = {
+					# TODO: Show an event window for attacker?
+					destroy_espionage_operation = this
+				}
+			}
+		}
+	}
+
+	abort_trigger = {
+		OR = {
+			NOT = {
+				exists = target.owner
+			}
+			target.owner = {
+				NOT = {
+					is_same_value = root.owner
+				}
+			}
+			target = {
+				NOT = {
+					has_planet_flag = operation_resource_target_global
+				}
+			}
+		}
+	}
+
+	stages = {
+		stage_1 = {
+			icon = GFX_situation_stage_1
+			icon_background = GFX_situation_stage_frame_red
+			custom_tooltip = situation_espionage_resources_1
+			end = 20
+		}
+		stage_2 = {
+			icon = GFX_situation_stage_2
+			icon_background = GFX_situation_stage_frame_blue
+			custom_tooltip = situation_espionage_resources_2
+			end = 40
+		}
+		stage_3 = {
+			icon = GFX_situation_stage_3
+			icon_background = GFX_situation_stage_frame_blue
+			custom_tooltip = situation_espionage_resources_3
+			end = 60
+		}
+		stage_4 = {
+			icon = GFX_situation_stage_4
+			icon_background = GFX_situation_stage_frame_blue
+			custom_tooltip = situation_espionage_resources_4
+			end = 80
+		}
+		stage_5 = {
+			icon = GFX_situation_stage_5
+			icon_background = GFX_situation_stage_frame_green
+			custom_tooltip = situation_espionage_resources_5
+			end = 100
+		}
+	}
+
+	monthly_progress = {
+		base = 0
+		modifier = {
+			desc = situation_espionage_resources_approach_nothing
+			current_situation_approach = situation_espionage_resources_approach_nothing
+			add = 1
+		}
+	}
+
+	approach = {
+		name = situation_espionage_resources_approach_nothing
+		icon = GFX_situation_approach_this_is_fine
+		icon_background = GFX_situation_approach_bg_yellow
+		on_select = {
+			custom_tooltip = approach_outcome_tooltip
+		}
+	}
+
+}

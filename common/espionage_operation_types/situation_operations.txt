@@ -77,7 +77,7 @@ operation_steal_resources = {
 	stage = {
 		difficulty = @diff_t0
 		icon = GFX_espionage_chapter_icon_success
-		event = situation_operation.1300
+		event = situation_operation.1900
 	}
 
 	on_roll_failed = {

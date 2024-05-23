@@ -27,7 +27,7 @@ espionage_operation_event = {
 		trigger = { exists = event_target:easy }
 		hidden_effect = {
 			event_target:easy = {
-				set_planet_flag = operation_resource_target@root
+				save_event_target_as = operation_target
 			}
 		}
 	}
@@ -37,7 +37,7 @@ espionage_operation_event = {
 		trigger = { exists = event_target:norm }
 		hidden_effect = {
 			event_target:norm = {
-				set_planet_flag = operation_resource_target@root
+				save_event_target_as = operation_target
 			}
 		}
 	}
@@ -47,7 +47,7 @@ espionage_operation_event = {
 		trigger = { exists = event_target:hard }
 		hidden_effect = {
 			event_target:hard = {
-				set_planet_flag = operation_resource_target@root
+				save_event_target_as = operation_target
 			}
 		}
 	}
@@ -95,6 +95,25 @@ espionage_operation_event = {
 	}
 
 	after = {
+		event_target:operation_target = {
+			# Set flags on the target planet.
+			hidden_effect = {
+				set_planet_flag = operation_resource_target@root
+				set_planet_flag = operation_resource_target_global
+			}
+			# Start the situation on the target planet.
+			owner = {
+				start_situation = {
+					type = situation_espionage_resources
+					target = event_target:operation_target
+					effect = {
+						# Set flags for going between the situation and operation.
+						set_situation_flag = operation_resource_situation@root
+						root = { set_espionage_operation_flag = operation_resource_attacker@prev }
+					}
+				}
+			}
+		}
 		# Start operation rolls.
 		set_espionage_operation_progress_locked = no
 	}
@@ -158,16 +177,62 @@ espionage_operation_event = {
 				limit = { has_planet_flag = operation_resource_target@root }
 				save_event_target_as = selected_planet
 			}
+			random_situation = {
+				limit = { has_situation_flag = operation_resource_situation@root }
+				save_event_target_as = espionage_sitation
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					NOT = { exists = event_target:espionage_sitation }
+					event_target:espionage_sitation = { situation_progress >= 80 }
+				}
+			}
+			# Situation ended at Stage 5 or Completed.
+			set_variable = { which = situation_multiplier value = 0.0 }
+		}
+		else_if = {
+			limit = {
+				event_target:espionage_sitation = { situation_progress >= 60 }
+			}
+			# Situation ended at Stage 4.
+			set_variable = { which = situation_multiplier value = 0.2 }
+		}
+		else_if = {
+			limit = {
+				event_target:espionage_sitation = { situation_progress >= 40 }
+			}
+			# Situation ended at Stage 3.
+			set_variable = { which = situation_multiplier value = 0.5 }
+		}
+		else_if = {
+			limit = {
+				event_target:espionage_sitation = { situation_progress >= 20 }
+			}
+			# Situation ended at Stage 2.
+			set_variable = { which = situation_multiplier value = 0.8 }
+		}
+		else = {
+			# Situation ended at Stage 1.
+			set_variable = { which = situation_multiplier value = 1.0 }
 		}
 	}
 
 	after = {
 		# Delay repeating this operation.
-		fromfrom.spynetwork = {
+		spynetwork = {
 			set_saved_date = {
 				key = recently_stole_resources
 				days_from_present = @StealResourcesTimer
 				expires = @StealResourcesTimer
+			}
+		}
+		# Add resources based on situation multiplier.
+		root.owner = {
+			add_resource = {
+				minerals = 100
+				mult = event_target:espionage_sitation.trigger:situation_progress
 			}
 		}
 		# End this operation.
