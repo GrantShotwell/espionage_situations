@@ -182,41 +182,6 @@ espionage_operation_event = {
 				save_event_target_as = espionage_sitation
 			}
 		}
-		if = {
-			limit = {
-				OR = {
-					NOT = { exists = event_target:espionage_sitation }
-					event_target:espionage_sitation = { situation_progress >= 80 }
-				}
-			}
-			# Situation ended at Stage 5 or Completed.
-			set_variable = { which = situation_multiplier value = 0.0 }
-		}
-		else_if = {
-			limit = {
-				event_target:espionage_sitation = { situation_progress >= 60 }
-			}
-			# Situation ended at Stage 4.
-			set_variable = { which = situation_multiplier value = 0.2 }
-		}
-		else_if = {
-			limit = {
-				event_target:espionage_sitation = { situation_progress >= 40 }
-			}
-			# Situation ended at Stage 3.
-			set_variable = { which = situation_multiplier value = 0.5 }
-		}
-		else_if = {
-			limit = {
-				event_target:espionage_sitation = { situation_progress >= 20 }
-			}
-			# Situation ended at Stage 2.
-			set_variable = { which = situation_multiplier value = 0.8 }
-		}
-		else = {
-			# Situation ended at Stage 1.
-			set_variable = { which = situation_multiplier value = 1.0 }
-		}
 	}
 
 	after = {
@@ -232,7 +197,7 @@ espionage_operation_event = {
 		root.owner = {
 			add_resource = {
 				minerals = 100
-				mult = event_target:espionage_sitation.trigger:situation_progress
+				mult = value:espionage_situation_multiplier
 			}
 		}
 		# End this operation.
