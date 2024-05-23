@@ -196,10 +196,16 @@ espionage_operation_event = {
 		# Add resources based on situation multiplier.
 		root.owner = {
 			add_resource = {
-				minerals = 100
+				minerals = 5000
+				mult = value:espionage_situation_multiplier
+			}
+			add_resource = {
+				energy = 5000
 				mult = value:espionage_situation_multiplier
 			}
 		}
+		# End the defender's situation.
+		abort_situation = event_target:espionage_sitation
 		# End this operation.
 		destroy_espionage_operation = this
 	}
