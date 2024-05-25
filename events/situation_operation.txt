@@ -98,20 +98,7 @@ espionage_operation_event = {
 		event_target:operation_target = {
 			# Set flags on the target planet.
 			hidden_effect = {
-				set_planet_flag = operation_resource_target@root
-				set_planet_flag = operation_resource_target_global
-			}
-			# Start the situation on the target planet.
-			owner = {
-				start_situation = {
-					type = situation_espionage_resources
-					target = event_target:operation_target
-					effect = {
-						# Set flags for going between the situation and operation.
-						set_situation_flag = operation_resource_situation@root
-						root = { set_espionage_operation_flag = operation_resource_attacker@prev }
-					}
-				}
+				set_planet_flag = operation_target@root
 			}
 		}
 		# Start operation rolls.
@@ -139,15 +126,25 @@ espionage_operation_event = {
 		# Save flagged planet as event scope for localization.
 		from = {
 			random_owned_planet = {
-				limit = { has_planet_flag = operation_resource_target@root }
-				save_event_target_as = selected_planet
+				limit = { has_planet_flag = operation_target@root }
+				save_event_target_as = operation_target
 			}
 		}
 	}
 
 	after = {
 		# Start the situation on the enemy planet.
-		# TODO
+		event_target:operation_target.owner = {
+			start_situation = {
+				type = situation_espionage_resources
+				target = event_target:operation_target
+				effect = {
+					# Set flags for going between the situation and operation.
+					set_situation_flag = espionage_situation@root
+					root = { set_espionage_operation_flag = espionage_attacker@prev }
+				}
+			}
+		}
 		# Start operation rolls.
 		set_espionage_operation_progress_locked = no
 	}
@@ -174,11 +171,11 @@ espionage_operation_event = {
 		# Save flagged planet as event scope for localization.
 		from = {
 			random_owned_planet = {
-				limit = { has_planet_flag = operation_resource_target@root }
-				save_event_target_as = selected_planet
+				limit = { has_planet_flag = operation_target@root }
+				save_event_target_as = operation_target
 			}
 			random_situation = {
-				limit = { has_situation_flag = operation_resource_situation@root }
+				limit = { has_situation_flag = espionage_situation@root }
 				save_event_target_as = espionage_sitation
 			}
 		}
@@ -196,12 +193,24 @@ espionage_operation_event = {
 		# Add resources based on situation multiplier.
 		root.owner = {
 			add_resource = {
-				minerals = 5000
-				mult = value:espionage_situation_multiplier
+				energy = 24 # Number of months to receive
+				mult = value:espsit_planet_energy|SCOPE|event_target:operation_target|MULT|value:espionage_situation_multiplier|
 			}
 			add_resource = {
-				energy = 5000
-				mult = value:espionage_situation_multiplier
+				minerals = 24
+				mult = value:espsit_planet_minerals|SCOPE|event_target:operation_target|MULT|value:espionage_situation_multiplier|
+			}
+			add_resource = {
+				food = 24
+				mult = value:espsit_planet_food|SCOPE|event_target:operation_target|MULT|value:espionage_situation_multiplier|
+			}
+			add_resource = {
+				alloys = 24
+				mult = value:espsit_planet_alloys|SCOPE|event_target:operation_target|MULT|value:espionage_situation_multiplier|
+			}
+			add_resource = {
+				consumer_goods = 24
+				mult = value:espsit_planet_consumer_goods|SCOPE|event_target:operation_target|MULT|value:espionage_situation_multiplier|
 			}
 		}
 		# End the defender's situation.
