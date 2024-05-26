@@ -1,12 +1,12 @@
 
 espionage_situation_progress = {
-	add = event_target:espionage_sitation.trigger:situation_progress
+	add = event_target:espionage_situation.trigger:situation_progress
 	divide = 100
 }
 
 espionage_situation_multiplier = {
 	add = 100
-	subtract = event_target:espionage_sitation.trigger:situation_progress
+	subtract = event_target:espionage_situation.trigger:situation_progress
 	divide = 100
 }
 

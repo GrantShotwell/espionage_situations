@@ -26,9 +26,8 @@ espionage_operation_event = {
 		name = situation_operation.1100.option.easy
 		trigger = { exists = event_target:easy }
 		hidden_effect = {
-			event_target:easy = {
-				save_event_target_as = operation_target
-			}
+			event_target:easy = { save_event_target_as = operation_target }
+			set_espionage_operation_flag = difficulty_easy
 		}
 	}
 
@@ -36,9 +35,8 @@ espionage_operation_event = {
 		name = situation_operation.1100.option.norm
 		trigger = { exists = event_target:norm }
 		hidden_effect = {
-			event_target:norm = {
-				save_event_target_as = operation_target
-			}
+			event_target:norm = { save_event_target_as = operation_target }
+			set_espionage_operation_flag = difficulty_norm
 		}
 	}
 
@@ -46,9 +44,8 @@ espionage_operation_event = {
 		name = situation_operation.1100.option.hard
 		trigger = { exists = event_target:hard }
 		hidden_effect = {
-			event_target:hard = {
-				save_event_target_as = operation_target
-			}
+			event_target:hard = { save_event_target_as = operation_target }
+			set_espionage_operation_flag = difficulty_hard
 		}
 	}
 
@@ -142,6 +139,24 @@ espionage_operation_event = {
 					# Set flags for going between the situation and operation.
 					set_situation_flag = espionage_situation@root
 					root = { set_espionage_operation_flag = espionage_attacker@prev }
+					# Set the situation's difficulty.
+					if = {
+						limit = { root = { has_espionage_operation_flag = difficulty_easy } }
+						set_situation_flag = difficulty_easy
+					}
+					else_if = {
+						limit = { root = { has_espionage_operation_flag = difficulty_norm } }
+						set_situation_flag = difficulty_norm
+					}
+					else_if = {
+						limit = { root = { has_espionage_operation_flag = difficulty_hard } }
+						set_situation_flag = difficulty_hard
+					}
+					# Open the situation window for the defender.
+					save_event_target_as = espionage_situation
+					event_target:operation_target = {
+						planet_event = { id = situation_operation.1201 }
+					}
 				}
 			}
 		}
@@ -159,27 +174,48 @@ planet_event = {
 	show_sound = event_ship_bridge
 	is_triggered_only = yes
 
-	# (basic) Do Nothing
+	immediate = {
+		event_target:espionage_situation.target = {
+			save_event_target_as = operation_target
+		}
+	}
+
+	# (basic, replace civic) Do Nothing
 	option = {
 		name = situation_operation.1201.option.nothing
 		event_target:espionage_situation = {
 			set_situation_approach = situation_espionage_resources_approach_nothing
 		}
+		trigger = {
+			owner = {
+				has_espionage_situation_resources_civic_approach = no
+			}
+		}
 	}
 
-	# (basic) Weak Response
+	# (basic, replace ethic) Weak Response
 	option = {
 		name = situation_operation.1201.option.basic_weak
 		event_target:espionage_situation = {
 			set_situation_approach = situation_espionage_resources_approach_basic_weak
 		}
+		trigger = {
+			owner = {
+				has_espionage_situation_resources_ethic_approach = no
+			}
+		}
 	}
 
-	# (basic) Strong Response
+	# (basic, replace ethic) Strong Response
 	option = {
 		name = situation_operation.1201.option.basic_strong
 		event_target:espionage_situation = {
 			set_situation_approach = situation_espionage_resources_approach_basic_strong
+		}
+		trigger = {
+			owner = {
+				has_espionage_situation_resources_ethic_approach = no
+			}
 		}
 	}
 
@@ -190,7 +226,7 @@ planet_event = {
 			set_situation_approach = situation_espionage_resources_approach_weak_police
 		}
 		trigger = {
-			owner = { is_authoritarian = yes }
+			owner = { can_espionage_situation_approach_ethic_authoritarian = yes }
 		}
 	}
 
@@ -201,29 +237,7 @@ planet_event = {
 			set_situation_approach = situation_espionage_resources_approach_strong_police
 		}
 		trigger = {
-			owner = { is_authoritarian = yes }
-		}
-	}
-
-	# (ethic) Militarist, weak
-	option = {
-		name = situation_operation.1201.option.weak_soldiers
-		event_target:espionage_situation = {
-			set_situation_approach = situation_espionage_resources_approach_weak_soldiers
-		}
-		trigger = {
-			owner = { is_militarist = yes }
-		}
-	}
-
-	# (ethic) Militarist, strong
-	option = {
-		name = situation_operation.1201.option.strong_soldiers
-		event_target:espionage_situation = {
-			set_situation_approach = situation_espionage_resources_approach_strong_soldiers
-		}
-		trigger = {
-			owner = { is_militarist = yes }
+			owner = { can_espionage_situation_approach_ethic_authoritarian = yes }
 		}
 	}
 
@@ -234,7 +248,7 @@ planet_event = {
 			set_situation_approach = situation_espionage_resources_approach_weak_task_force
 		}
 		trigger = {
-			owner = { is_egalitarian = yes }
+			owner = { can_espionage_situation_approach_ethic_egalitarian = yes }
 		}
 	}
 
@@ -245,7 +259,29 @@ planet_event = {
 			set_situation_approach = situation_espionage_resources_approach_strong_task_force
 		}
 		trigger = {
-			owner = { is_egalitarian = yes }
+			owner = { can_espionage_situation_approach_ethic_egalitarian = yes }
+		}
+	}
+
+	# (ethic) Militarist, weak
+	option = {
+		name = situation_operation.1201.option.weak_soldiers
+		event_target:espionage_situation = {
+			set_situation_approach = situation_espionage_resources_approach_weak_soldiers
+		}
+		trigger = {
+			owner = { can_espionage_situation_approach_ethic_militarist = yes }
+		}
+	}
+
+	# (ethic) Militarist, strong
+	option = {
+		name = situation_operation.1201.option.strong_soldiers
+		event_target:espionage_situation = {
+			set_situation_approach = situation_espionage_resources_approach_strong_soldiers
+		}
+		trigger = {
+			owner = { can_espionage_situation_approach_ethic_militarist = yes }
 		}
 	}
 
@@ -256,7 +292,7 @@ planet_event = {
 			set_situation_approach = situation_espionage_resources_approach_weak_counter
 		}
 		trigger = {
-			owner = { is_pacifist = yes }
+			owner = { can_espionage_situation_approach_ethic_pacifist = yes }
 		}
 	}
 
@@ -267,19 +303,7 @@ planet_event = {
 			set_situation_approach = situation_espionage_resources_approach_strong_counter
 		}
 		trigger = {
-			owner = { is_pacifist = yes }
-		}
-	}
-
-	immediate = {
-		owner = {
-			random_situation = {
-				limit = { has_situation_flag = situation_espionage_resources }
-				save_event_target_as = espionage_sitation
-			}
-		}
-		event_target:espionage_situation = {
-			set_situation_approach = situation_espionage_resources_approach_nothing
+			owner = { can_espionage_situation_approach_ethic_pacifist = yes }
 		}
 	}
 
@@ -295,11 +319,25 @@ espionage_operation_event = {
 	is_triggered_only = yes
 
 	option = {
+		name = situation_operation.1900.option.fail
+		trigger = {
+			NOT = { exists = event_target:espionage_situation }
+		}
+	}
+
+	option = {
 		name = situation_operation.1900.option.take
+		allow = {
+			exists = event_target:espionage_situation
+		}
 	}
 
 	option = {
 		name = situation_operation.1900.option.destroy
+		allow = {
+			exists = event_target:espionage_situation
+			event_target:espionage_situation = { situation_progress < 50 }
+		}
 	}
 
 	immediate = {
@@ -311,7 +349,7 @@ espionage_operation_event = {
 			}
 			random_situation = {
 				limit = { has_situation_flag = espionage_situation@root }
-				save_event_target_as = espionage_sitation
+				save_event_target_as = espionage_situation
 			}
 		}
 	}
@@ -325,31 +363,35 @@ espionage_operation_event = {
 				expires = @StealResourcesTimer
 			}
 		}
-		# Add resources based on situation multiplier.
-		root.owner = {
-			add_resource = {
-				energy = 24 # Number of months to receive
-				mult = value:espsit_planet_energy|SCOPE|event_target:operation_target|MULT|value:espionage_situation_multiplier|
+		# If situation does not exist, assume it was completed.
+		if = {
+			limit = { exists = event_target:espionage_situation }
+			# Add resources based on situation multiplier.
+			root.owner = {
+				add_resource = {
+					energy = 24 # Number of months to receive
+					mult = value:espsit_planet_energy|SCOPE|event_target:operation_target|MULT|value:espionage_situation_multiplier|
+				}
+				add_resource = {
+					minerals = 24
+					mult = value:espsit_planet_minerals|SCOPE|event_target:operation_target|MULT|value:espionage_situation_multiplier|
+				}
+				add_resource = {
+					food = 24
+					mult = value:espsit_planet_food|SCOPE|event_target:operation_target|MULT|value:espionage_situation_multiplier|
+				}
+				add_resource = {
+					alloys = 24
+					mult = value:espsit_planet_alloys|SCOPE|event_target:operation_target|MULT|value:espionage_situation_multiplier|
+				}
+				add_resource = {
+					consumer_goods = 24
+					mult = value:espsit_planet_consumer_goods|SCOPE|event_target:operation_target|MULT|value:espionage_situation_multiplier|
+				}
 			}
-			add_resource = {
-				minerals = 24
-				mult = value:espsit_planet_minerals|SCOPE|event_target:operation_target|MULT|value:espionage_situation_multiplier|
-			}
-			add_resource = {
-				food = 24
-				mult = value:espsit_planet_food|SCOPE|event_target:operation_target|MULT|value:espionage_situation_multiplier|
-			}
-			add_resource = {
-				alloys = 24
-				mult = value:espsit_planet_alloys|SCOPE|event_target:operation_target|MULT|value:espionage_situation_multiplier|
-			}
-			add_resource = {
-				consumer_goods = 24
-				mult = value:espsit_planet_consumer_goods|SCOPE|event_target:operation_target|MULT|value:espionage_situation_multiplier|
-			}
+			# End the defender's situation.
+			abort_situation = event_target:espionage_situation
 		}
-		# End the defender's situation.
-		abort_situation = event_target:espionage_sitation
 		# End this operation.
 		destroy_espionage_operation = this
 	}

@@ -58,7 +58,7 @@ operation_steal_resources = {
 	# Stage 1: Infiltrate the planet.
 	# Mostly hands-off during this part, but fail events happen here.
 	stage = {
-		difficulty = @diff_t0
+		difficulty = @diff_t5
 		icon = GFX_espionage_chapter_icon_target
 		event = situation_operation.1100
 	}
@@ -67,7 +67,7 @@ operation_steal_resources = {
 	# Infiltrated wants faster sitation progress so the operation ends with a higher progress.
 	# Infiltrator wants successful rolls so the operation ends with a lower situation progress.
 	stage = {
-		difficulty = @diff_t0
+		difficulty = @diff_t5
 		icon = GFX_espionage_chapter_icon_motion
 		event = situation_operation.1200
 	}
@@ -75,7 +75,7 @@ operation_steal_resources = {
 	# Result Stage
 	# This exists to fire the final event after successfull rolls from Stage 2.
 	stage = {
-		difficulty = @diff_t0
+		difficulty = @diff_t5
 		icon = GFX_espionage_chapter_icon_success
 		event = situation_operation.1900
 	}

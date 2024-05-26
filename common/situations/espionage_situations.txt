@@ -1,4 +1,15 @@
 
+@BaseProgress = 3.5
+@DifficultyProgressEasy = -1
+@DifficultyProgressNormal = 0
+@DifficultyProgressHard = 1
+
+@ApproachProgressWeak = 0.3
+@ApproachProgressLow = 1.0
+@ApproachProgressMedium = 1.4
+@ApproachProgressHigh = 2.8
+@ApproachProgressExtreme = 3.6
+
 # Steal Resources (target)
 situation_espionage_resources = {
 	picture = GFX_evt_ship_offloading_cargo
@@ -7,13 +18,14 @@ situation_espionage_resources = {
 	complete_icon_frame = GFX_situation_outcome_frame_green
 
 	on_start = {
-		random_espionage_operation = {
-			limit = { has_espionage_operation_flag = espionage_attacker@root }
-			save_event_target_as = espionage_operation
+		every_country = {
+			random_espionage_operation = {
+				limit = { has_espionage_operation_flag = espionage_attacker@root }
+				save_event_target_as = espionage_operation
+			}
 		}
 		target = {
-			root = { set_situation_flag = situation_espionage_resources }
-			planet_event = { id = situation_operation.1201 }
+			save_event_target_as = operation_target
 		}
 	}
 
@@ -95,7 +107,22 @@ situation_espionage_resources = {
 	}
 
 	monthly_progress = {
-		base = 8
+		base = @BaseProgress
+		modifier = {
+			desc = situation_espionage_difficulty_easy
+			has_situation_flag = difficulty_easy
+			add = @DifficultyProgressEasy
+		}
+		modifier = {
+			desc = situation_espionage_difficulty_norm
+			has_situation_flag = difficulty_norm
+			add = @DifficultyProgressNormal
+		}
+		modifier = {
+			desc = situation_espionage_difficulty_hard
+			has_situation_flag = difficulty_hard
+			add = @DifficultyProgressHard
+		}
 		modifier = {
 			desc = situation_espionage_resources_approach_nothing
 			current_situation_approach = situation_espionage_resources_approach_nothing
@@ -104,73 +131,81 @@ situation_espionage_resources = {
 		modifier = {
 			desc = situation_espionage_resources_approach_basic_weak
 			current_situation_approach = situation_espionage_resources_approach_basic_weak
-			add = 1
+			add = @ApproachProgressWeak
 		}
 		modifier = {
 			desc = situation_espionage_resources_approach_basic_strong
 			current_situation_approach = situation_espionage_resources_approach_basic_strong
-			add = 2
+			add = @ApproachProgressLow
 		}
 		modifier = {
 			desc = situation_espionage_resources_approach_weak_police
 			current_situation_approach = situation_espionage_resources_approach_weak_police
-			add = 2
+			add = @ApproachProgressMedium
 		}
 		modifier = {
 			desc = situation_espionage_resources_approach_strong_police
 			current_situation_approach = situation_espionage_resources_approach_strong_police
-			add = 3
+			add = @ApproachProgressHigh
 		}
 		modifier = {
 			desc = situation_espionage_resources_approach_weak_soldiers
 			current_situation_approach = situation_espionage_resources_approach_weak_soldiers
-			add = 2
+			add = @ApproachProgressMedium
 		}
 		modifier = {
 			desc = situation_espionage_resources_approach_strong_soldiers
 			current_situation_approach = situation_espionage_resources_approach_strong_soldiers
-			add = 3
+			add = @ApproachProgressHigh
 		}
 		modifier = {
 			desc = situation_espionage_resources_approach_weak_task_force
 			current_situation_approach = situation_espionage_resources_approach_weak_task_force
-			add = 2
+			add = @ApproachProgressMedium
 		}
 		modifier = {
 			desc = situation_espionage_resources_approach_strong_task_force
 			current_situation_approach = situation_espionage_resources_approach_strong_task_force
-			add = 3
+			add = @ApproachProgressHigh
 		}
 		modifier = {
 			desc = situation_espionage_resources_approach_weak_counter
 			current_situation_approach = situation_espionage_resources_approach_weak_counter
-			add = 4
+			add = @ApproachProgressHigh
 		}
 		modifier = {
 			desc = situation_espionage_resources_approach_strong_counter
 			current_situation_approach = situation_espionage_resources_approach_strong_counter
-			add = 6
+			add = @ApproachProgressExtreme
 		}
 	}
 
+	# (basic, replace civic) Do Nothing
 	approach = {
 		name = situation_espionage_resources_approach_nothing
 		icon = GFX_situation_approach_this_is_fine
 		icon_background = GFX_situation_approach_bg_yellow
+		potential = {
+			target.owner = { has_espionage_situation_resources_civic_approach = no }
+		}
 		on_select = {
-			custom_tooltip = approach_outcome_tooltip
+			custom_tooltip = situation_espionage_progress_none
 		}
 		ai_weight = {
 			base = 0
 		}
 	}
 
+	# (basic, replace ethic) Weak Response
 	approach = {
 		name = situation_espionage_resources_approach_basic_weak
 		icon = GFX_situation_approach_this_is_fine
 		icon_background = GFX_situation_approach_bg_yellow
+		potential = {
+			target.owner = { has_espionage_situation_resources_ethic_approach = no }
+		}
 		on_select = {
-			custom_tooltip = approach_outcome_tooltip
+			custom_tooltip = situation_espionage_progress_weak
 		}
 		triggered_target_modifier = {
 			modifier = {
@@ -183,12 +218,16 @@ situation_espionage_resources = {
 		}
 	}
 
+	# (basic, replace ethic) Strong Response
 	approach = {
 		name = situation_espionage_resources_approach_basic_strong
 		icon = GFX_situation_approach_this_is_fine
 		icon_background = GFX_situation_approach_bg_yellow
+		potential = {
+			target.owner = { has_espionage_situation_resources_ethic_approach = no }
+		}
 		on_select = {
-			custom_tooltip = approach_outcome_tooltip
+			custom_tooltip = situation_espionage_progress_low
 		}
 		triggered_target_modifier = {
 			modifier = {
@@ -202,15 +241,16 @@ situation_espionage_resources = {
 		}
 	}
 
+	# (ethic) Authoritarian, weak
 	approach = {
 		name = situation_espionage_resources_approach_weak_police
 		icon = GFX_situation_approach_this_is_fine
 		icon_background = GFX_situation_approach_bg_yellow
 		potential = {
-			target.owner = { is_authoritarian = yes }
+			target.owner = { can_espionage_situation_approach_ethic_authoritarian = yes }
 		}
 		on_select = {
-			custom_tooltip = approach_outcome_tooltip
+			custom_tooltip = situation_espionage_progress_medium
 		}
 		triggered_target_modifier = {
 			modifier = {
@@ -222,15 +262,16 @@ situation_espionage_resources = {
 		}
 	}
 
+	# (ethic) Authoritarian, strong
 	approach = {
 		name = situation_espionage_resources_approach_strong_police
 		icon = GFX_situation_approach_this_is_fine
 		icon_background = GFX_situation_approach_bg_yellow
 		potential = {
-			target.owner = { is_authoritarian = yes }
+			target.owner = { can_espionage_situation_approach_ethic_authoritarian = yes }
 		}
 		on_select = {
-			custom_tooltip = approach_outcome_tooltip
+			custom_tooltip = situation_espionage_progress_high
 		}
 		triggered_target_modifier = {
 			modifier = {
@@ -242,63 +283,16 @@ situation_espionage_resources = {
 		}
 	}
 
-	approach = {
-		name = situation_espionage_resources_approach_weak_soldiers
-		icon = GFX_situation_approach_this_is_fine
-		icon_background = GFX_situation_approach_bg_yellow
-		potential = {
-			target.owner = { is_militarist = yes }
-		}
-		on_select = {
-			custom_tooltip = approach_outcome_tooltip
-		}
-		triggered_target_modifier = {
-			modifier = {
-				pop_happiness = -0.10
-				planet_stability_add = -5
-				planet_soldiers_unity_produces_add = 1.5
-			}
-		}
-		ai_weight = {
-			base = 20
-		}
-	}
-
-	approach = {
-		name = situation_espionage_resources_approach_strong_soldiers
-		icon = GFX_situation_approach_this_is_fine
-		icon_background = GFX_situation_approach_bg_yellow
-		potential = {
-			target.owner = { is_militarist = yes }
-		}
-		on_select = {
-			custom_tooltip = approach_outcome_tooltip
-		}
-		triggered_modifier = {
-			modifier = {
-				intel_encryption_add = 0.5
-			}
-		}
-		triggered_target_modifier = {
-			modifier = {
-				pop_happiness = -0.20
-				planet_stability_add = -15
-			}
-		}
-		ai_weight = {
-			base = 20
-		}
-	}
-
+	# (ethic) Egalitarian, weak
 	approach = {
 		name = situation_espionage_resources_approach_weak_task_force
 		icon = GFX_situation_approach_this_is_fine
 		icon_background = GFX_situation_approach_bg_yellow
 		potential = {
-			target.owner = { is_egalitarian = yes }
+			target.owner = { can_espionage_situation_approach_ethic_egalitarian = yes }
 		}
 		on_select = {
-			custom_tooltip = approach_outcome_tooltip
+			custom_tooltip = situation_espionage_progress_medium
 		}
 		triggered_target_modifier = {
 			modifier = {
@@ -316,15 +310,16 @@ situation_espionage_resources = {
 		}
 	}
 
+	# (ethic) Egalitarian, strong
 	approach = {
 		name = situation_espionage_resources_approach_strong_task_force
 		icon = GFX_situation_approach_this_is_fine
 		icon_background = GFX_situation_approach_bg_yellow
 		potential = {
-			target.owner = { is_egalitarian = yes }
+			target.owner = { can_espionage_situation_approach_ethic_egalitarian = yes }
 		}
 		on_select = {
-			custom_tooltip = approach_outcome_tooltip
+			custom_tooltip = situation_espionage_progress_high
 		}
 		triggered_target_modifier = {
 			modifier = {
@@ -342,15 +337,66 @@ situation_espionage_resources = {
 		}
 	}
 
+	# (ethic) Militarist, weak
+	approach = {
+		name = situation_espionage_resources_approach_weak_soldiers
+		icon = GFX_situation_approach_this_is_fine
+		icon_background = GFX_situation_approach_bg_yellow
+		potential = {
+			target.owner = { can_espionage_situation_approach_ethic_militarist = yes }
+		}
+		on_select = {
+			custom_tooltip = situation_espionage_progress_medium
+		}
+		triggered_target_modifier = {
+			modifier = {
+				pop_happiness = -0.10
+				planet_stability_add = -5
+				planet_soldiers_unity_produces_add = 1.5
+			}
+		}
+		ai_weight = {
+			base = 20
+		}
+	}
+
+	# (ethic) Militarist, strong
+	approach = {
+		name = situation_espionage_resources_approach_strong_soldiers
+		icon = GFX_situation_approach_this_is_fine
+		icon_background = GFX_situation_approach_bg_yellow
+		potential = {
+			target.owner = { can_espionage_situation_approach_ethic_militarist = yes }
+		}
+		on_select = {
+			custom_tooltip = situation_espionage_progress_high
+		}
+		triggered_modifier = {
+			modifier = {
+				intel_encryption_add = 0.5
+			}
+		}
+		triggered_target_modifier = {
+			modifier = {
+				pop_happiness = -0.20
+				planet_stability_add = -15
+			}
+		}
+		ai_weight = {
+			base = 20
+		}
+	}
+
+	# (ethic) Pacifist, weak
 	approach = {
 		name = situation_espionage_resources_approach_weak_counter
 		icon = GFX_situation_approach_this_is_fine
 		icon_background = GFX_situation_approach_bg_yellow
 		potential = {
-			target.owner = { is_pacifist = yes }
+			target.owner = { can_espionage_situation_approach_ethic_pacifist = yes }
 		}
 		on_select = {
-			custom_tooltip = approach_outcome_tooltip
+			custom_tooltip = situation_espionage_progress_high
 		}
 		triggered_modifier = {
 			modifier = {
@@ -368,15 +414,16 @@ situation_espionage_resources = {
 		}
 	}
 
+	# (ethic) Pacifist, strong
 	approach = {
 		name = situation_espionage_resources_approach_strong_counter
 		icon = GFX_situation_approach_this_is_fine
 		icon_background = GFX_situation_approach_bg_yellow
 		potential = {
-			target.owner = { is_pacifist = yes }
+			target.owner = { can_espionage_situation_approach_ethic_pacifist = yes }
 		}
 		on_select = {
-			custom_tooltip = approach_outcome_tooltip
+			custom_tooltip = situation_espionage_progress_extreme
 		}
 		triggered_modifier = {
 			modifier = {
