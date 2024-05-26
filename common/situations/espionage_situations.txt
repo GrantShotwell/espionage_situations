@@ -6,21 +6,38 @@ situation_espionage_resources = {
 	complete_icon = GFX_situation_outcome_positive
 	complete_icon_frame = GFX_situation_outcome_frame_green
 
+	on_start = {
+		random_espionage_operation = {
+			limit = { has_espionage_operation_flag = espionage_attacker@root }
+			save_event_target_as = espionage_operation
+		}
+		target = {
+			root = { set_situation_flag = situation_espionage_resources }
+			planet_event = { id = situation_operation.1201 }
+		}
+	}
+
 	on_monthly = {
-		#
+		# TODO: Random events?
 	}
 
 	on_progress_complete = {
+		# Show event window for defender to punish attacker.
+		hidden_effect = {
+			if = {
+				limit = { exists = event_target:espionage_operation }
+				event_target:espionage_operation.owner = {
+					# TODO: Inform attack of failure immediately.
+				}
+				destroy_espionage_operation = event_target:espionage_operation
+			}
+		}
 		# End this situation.
 		destroy_situation = this
 	}
 
 	on_abort = {
 		target = {
-			random_espionage_operation = {
-				limit = { has_espionage_operation_flag = espionage_attacker@this }
-				save_event_target_as = espionage_operation
-			}
 			if = {
 				limit = { exists = event_target:espionage_operation }
 				event_target:espionage_operation = {
@@ -78,11 +95,61 @@ situation_espionage_resources = {
 	}
 
 	monthly_progress = {
-		base = 0
+		base = 8
 		modifier = {
 			desc = situation_espionage_resources_approach_nothing
 			current_situation_approach = situation_espionage_resources_approach_nothing
+			add = 0
+		}
+		modifier = {
+			desc = situation_espionage_resources_approach_basic_weak
+			current_situation_approach = situation_espionage_resources_approach_basic_weak
 			add = 1
+		}
+		modifier = {
+			desc = situation_espionage_resources_approach_basic_strong
+			current_situation_approach = situation_espionage_resources_approach_basic_strong
+			add = 2
+		}
+		modifier = {
+			desc = situation_espionage_resources_approach_weak_police
+			current_situation_approach = situation_espionage_resources_approach_weak_police
+			add = 2
+		}
+		modifier = {
+			desc = situation_espionage_resources_approach_strong_police
+			current_situation_approach = situation_espionage_resources_approach_strong_police
+			add = 3
+		}
+		modifier = {
+			desc = situation_espionage_resources_approach_weak_soldiers
+			current_situation_approach = situation_espionage_resources_approach_weak_soldiers
+			add = 2
+		}
+		modifier = {
+			desc = situation_espionage_resources_approach_strong_soldiers
+			current_situation_approach = situation_espionage_resources_approach_strong_soldiers
+			add = 3
+		}
+		modifier = {
+			desc = situation_espionage_resources_approach_weak_task_force
+			current_situation_approach = situation_espionage_resources_approach_weak_task_force
+			add = 2
+		}
+		modifier = {
+			desc = situation_espionage_resources_approach_strong_task_force
+			current_situation_approach = situation_espionage_resources_approach_strong_task_force
+			add = 3
+		}
+		modifier = {
+			desc = situation_espionage_resources_approach_weak_counter
+			current_situation_approach = situation_espionage_resources_approach_weak_counter
+			add = 4
+		}
+		modifier = {
+			desc = situation_espionage_resources_approach_strong_counter
+			current_situation_approach = situation_espionage_resources_approach_strong_counter
+			add = 6
 		}
 	}
 
@@ -92,6 +159,239 @@ situation_espionage_resources = {
 		icon_background = GFX_situation_approach_bg_yellow
 		on_select = {
 			custom_tooltip = approach_outcome_tooltip
+		}
+		ai_weight = {
+			base = 0
+		}
+	}
+
+	approach = {
+		name = situation_espionage_resources_approach_basic_weak
+		icon = GFX_situation_approach_this_is_fine
+		icon_background = GFX_situation_approach_bg_yellow
+		on_select = {
+			custom_tooltip = approach_outcome_tooltip
+		}
+		triggered_target_modifier = {
+			modifier = {
+				planet_jobs_produces_mult = -0.02
+				planet_jobs_unity_produces_mult = -0.10
+			}
+		}
+		ai_weight = {
+			base = 10
+		}
+	}
+
+	approach = {
+		name = situation_espionage_resources_approach_basic_strong
+		icon = GFX_situation_approach_this_is_fine
+		icon_background = GFX_situation_approach_bg_yellow
+		on_select = {
+			custom_tooltip = approach_outcome_tooltip
+		}
+		triggered_target_modifier = {
+			modifier = {
+				pop_happiness = -0.10
+				planet_jobs_produces_mult = -0.05
+				planet_jobs_unity_produces_mult = -0.10
+			}
+		}
+		ai_weight = {
+			base = 10
+		}
+	}
+
+	approach = {
+		name = situation_espionage_resources_approach_weak_police
+		icon = GFX_situation_approach_this_is_fine
+		icon_background = GFX_situation_approach_bg_yellow
+		potential = {
+			target.owner = { is_authoritarian = yes }
+		}
+		on_select = {
+			custom_tooltip = approach_outcome_tooltip
+		}
+		triggered_target_modifier = {
+			modifier = {
+				pop_happiness = -0.05
+			}
+		}
+		ai_weight = {
+			base = 20
+		}
+	}
+
+	approach = {
+		name = situation_espionage_resources_approach_strong_police
+		icon = GFX_situation_approach_this_is_fine
+		icon_background = GFX_situation_approach_bg_yellow
+		potential = {
+			target.owner = { is_authoritarian = yes }
+		}
+		on_select = {
+			custom_tooltip = approach_outcome_tooltip
+		}
+		triggered_target_modifier = {
+			modifier = {
+				pop_happiness = -0.15
+			}
+		}
+		ai_weight = {
+			base = 20
+		}
+	}
+
+	approach = {
+		name = situation_espionage_resources_approach_weak_soldiers
+		icon = GFX_situation_approach_this_is_fine
+		icon_background = GFX_situation_approach_bg_yellow
+		potential = {
+			target.owner = { is_militarist = yes }
+		}
+		on_select = {
+			custom_tooltip = approach_outcome_tooltip
+		}
+		triggered_target_modifier = {
+			modifier = {
+				pop_happiness = -0.10
+				planet_stability_add = -5
+				planet_soldiers_unity_produces_add = 1.5
+			}
+		}
+		ai_weight = {
+			base = 20
+		}
+	}
+
+	approach = {
+		name = situation_espionage_resources_approach_strong_soldiers
+		icon = GFX_situation_approach_this_is_fine
+		icon_background = GFX_situation_approach_bg_yellow
+		potential = {
+			target.owner = { is_militarist = yes }
+		}
+		on_select = {
+			custom_tooltip = approach_outcome_tooltip
+		}
+		triggered_modifier = {
+			modifier = {
+				intel_encryption_add = 0.5
+			}
+		}
+		triggered_target_modifier = {
+			modifier = {
+				pop_happiness = -0.20
+				planet_stability_add = -15
+			}
+		}
+		ai_weight = {
+			base = 20
+		}
+	}
+
+	approach = {
+		name = situation_espionage_resources_approach_weak_task_force
+		icon = GFX_situation_approach_this_is_fine
+		icon_background = GFX_situation_approach_bg_yellow
+		potential = {
+			target.owner = { is_egalitarian = yes }
+		}
+		on_select = {
+			custom_tooltip = approach_outcome_tooltip
+		}
+		triggered_target_modifier = {
+			modifier = {
+				pop_happiness = 0.05
+			}
+		}
+		resources = {
+			category = country_situations
+			upkeep = {
+				energy = 20
+			}
+		}
+		ai_weight = {
+			base = 20
+		}
+	}
+
+	approach = {
+		name = situation_espionage_resources_approach_strong_task_force
+		icon = GFX_situation_approach_this_is_fine
+		icon_background = GFX_situation_approach_bg_yellow
+		potential = {
+			target.owner = { is_egalitarian = yes }
+		}
+		on_select = {
+			custom_tooltip = approach_outcome_tooltip
+		}
+		triggered_target_modifier = {
+			modifier = {
+				pop_happiness = 0.08
+			}
+		}
+		resources = {
+			category = country_situations
+			upkeep = {
+				energy = 50
+			}
+		}
+		ai_weight = {
+			base = 20
+		}
+	}
+
+	approach = {
+		name = situation_espionage_resources_approach_weak_counter
+		icon = GFX_situation_approach_this_is_fine
+		icon_background = GFX_situation_approach_bg_yellow
+		potential = {
+			target.owner = { is_pacifist = yes }
+		}
+		on_select = {
+			custom_tooltip = approach_outcome_tooltip
+		}
+		triggered_modifier = {
+			modifier = {
+				hostile_operation_steal_resources_difficulty_add = 2
+			}
+		}
+		triggered_target_modifier = {
+			modifier = {
+				planet_jobs_unity_produces_mult = 0.10
+				planet_jobs_produces_mult = -0.05
+			}
+		}
+		ai_weight = {
+			base = 20
+		}
+	}
+
+	approach = {
+		name = situation_espionage_resources_approach_strong_counter
+		icon = GFX_situation_approach_this_is_fine
+		icon_background = GFX_situation_approach_bg_yellow
+		potential = {
+			target.owner = { is_pacifist = yes }
+		}
+		on_select = {
+			custom_tooltip = approach_outcome_tooltip
+		}
+		triggered_modifier = {
+			modifier = {
+				intel_encryption_add = 1
+				hostile_operation_steal_resources_difficulty_add = 2
+			}
+		}
+		triggered_target_modifier = {
+			modifier = {
+				planet_jobs_unity_produces_mult = 0.30
+				planet_jobs_produces_mult = -0.05
+			}
+		}
+		ai_weight = {
+			base = 20
 		}
 	}
 
