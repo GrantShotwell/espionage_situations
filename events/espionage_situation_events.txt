@@ -1,6 +1,7 @@
 namespace = situation_operation
 
 @StealResourcesTimer = 10
+@StealResourcesAmountMonths = 24
 
 ## Steal Resources, Stage 1 ##
 espionage_operation_event = {
@@ -369,28 +370,110 @@ espionage_operation_event = {
 			# Add resources based on situation multiplier.
 			root.owner = {
 				add_resource = {
-					energy = 24 # Number of months to receive
+					energy = @StealResourcesAmountMonths
 					mult = value:espsit_planet_energy|SCOPE|event_target:operation_target|MULT|value:espionage_situation_multiplier|
 				}
 				add_resource = {
-					minerals = 24
+					minerals = @StealResourcesAmountMonths
 					mult = value:espsit_planet_minerals|SCOPE|event_target:operation_target|MULT|value:espionage_situation_multiplier|
 				}
 				add_resource = {
-					food = 24
+					food = @StealResourcesAmountMonths
 					mult = value:espsit_planet_food|SCOPE|event_target:operation_target|MULT|value:espionage_situation_multiplier|
 				}
 				add_resource = {
-					alloys = 24
+					alloys = @StealResourcesAmountMonths
 					mult = value:espsit_planet_alloys|SCOPE|event_target:operation_target|MULT|value:espionage_situation_multiplier|
 				}
 				add_resource = {
-					consumer_goods = 24
+					consumer_goods = @StealResourcesAmountMonths
 					mult = value:espsit_planet_consumer_goods|SCOPE|event_target:operation_target|MULT|value:espionage_situation_multiplier|
 				}
 			}
 			# End the defender's situation.
 			abort_situation = event_target:espionage_situation
+		}
+		# Add negative modifier based on situation progress.
+		if = {
+			limit = { exists = event_target:operation_target }
+			event_target:operation_target = {
+				if = {
+					limit = { NOT = { exists = event_target:espionage_situation } }
+					add_modifier = {
+						modifier = espsit_stolen_resources_10
+						months = @StealResourcesAmountMonths
+					}
+				}
+				else_if = {
+					limit = { event_target:espionage_situation = { situation_progress > 90 } }
+					add_modifier = {
+						modifier = espsit_stolen_resources_10
+						months = @StealResourcesAmountMonths
+					}
+				}
+				else_if = {
+					limit = { event_target:espionage_situation = { situation_progress > 80 } }
+					add_modifier = {
+						modifier = espsit_stolen_resources_10
+						months = @StealResourcesAmountMonths
+					}
+				}
+				else_if = {
+					limit = { event_target:espionage_situation = { situation_progress > 70 } }
+					add_modifier = {
+						modifier = espsit_stolen_resources_20
+						months = @StealResourcesAmountMonths
+					}
+				}
+				else_if = {
+					limit = { event_target:espionage_situation = { situation_progress > 60 } }
+					add_modifier = {
+						modifier = espsit_stolen_resources_30
+						months = @StealResourcesAmountMonths
+					}
+				}
+				else_if = {
+					limit = { event_target:espionage_situation = { situation_progress > 50 } }
+					add_modifier = {
+						modifier = espsit_stolen_resources_30
+						months = @StealResourcesAmountMonths
+					}
+				}
+				else_if = {
+					limit = { event_target:espionage_situation = { situation_progress > 40 } }
+					add_modifier = {
+						modifier = espsit_stolen_resources_40
+						months = @StealResourcesAmountMonths
+					}
+				}
+				else_if = {
+					limit = { event_target:espionage_situation = { situation_progress > 30 } }
+					add_modifier = {
+						modifier = espsit_stolen_resources_40
+						months = @StealResourcesAmountMonths
+					}
+				}
+				else_if = {
+					limit = { event_target:espionage_situation = { situation_progress > 20 } }
+					add_modifier = {
+						modifier = espsit_stolen_resources_50
+						months = @StealResourcesAmountMonths
+					}
+				}
+				else_if = {
+					limit = { event_target:espionage_situation = { situation_progress > 10 } }
+					add_modifier = {
+						modifier = espsit_stolen_resources_50
+						months = @StealResourcesAmountMonths
+					}
+				}
+				else = {
+					add_modifier = {
+						modifier = espsit_stolen_resources_60
+						months = @StealResourcesAmountMonths
+					}
+				}
+			}
 		}
 		# End this operation.
 		destroy_espionage_operation = this
