@@ -1,6 +1,6 @@
 namespace = situation_operation
 
-@StealResourcesTimer = 36000
+@StealResourcesTimer = 5400
 @StealResourcesAmountMonths = 24
 
 ## Steal Resources, Stage 1 ##

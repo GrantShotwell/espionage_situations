@@ -39,7 +39,7 @@ operation_steal_resources = {
 			influence = 100
 		}
 		upkeep = {
-			influence = 0.2
+			influence = 1.0
 		}
 	}
 
@@ -48,10 +48,15 @@ operation_steal_resources = {
 	}
 
 	allow = {
-		# TODO: Disallow if already in-progress by another empire?
+		# Only allow one operation at a time.
 		custom_tooltip = {
-			is_running_espionage_operation = no
 			fail_text = operation_one_at_a_time
+			is_running_espionage_operation = no
+		}
+		# Disallow if cooldown for this operation is active.
+		custom_tooltip = {
+			fail_text = operation_steal_resources_too_recent
+			NOT = { has_spynetwork_flag = recently_stole_resources }
 		}
 	}
 

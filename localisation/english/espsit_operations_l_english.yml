@@ -3,3 +3,4 @@
   operation_steal_resources_desc: "Our operatives will infiltrate resource transports and exchanges, sending resources off-world and eventually to ourselves."
   operation_steal_resources_on_success: "$IF_SUCCESSFUL|E$\nGain basic and advanced resources based on the planet's production."
   operation_steal_resources_too_recent: "$TRIGGER_FAIL$ §RWe must wait until at least §Y[Root.recently_stole_resources]§! before we make another attempt on their resource facilities.§!"
+  mod_hostile_operation_steal_resources_difficulty_add: "Defense Against Hostile Operations ($operation_steal_resources$)"
