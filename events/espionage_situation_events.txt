@@ -58,6 +58,7 @@ espionage_operation_event = {
 			random_planet_within_border = {
 				limit = {
 					is_owned_by = from
+					is_capital = no
 					num_pops <= 25
 				}
 				save_event_target_as = easy
@@ -65,6 +66,7 @@ espionage_operation_event = {
 			random_planet_within_border = {
 				limit = {
 					is_owned_by = from
+					is_capital = no
 					OR = {
 						NOT = { exists = event_target:easy }
 						NOT = { is_planet = event_target:easy }
@@ -85,7 +87,10 @@ espionage_operation_event = {
 						NOT = { exists = event_target:norm }
 						NOT = { is_planet = event_target:norm }
 					}
-					num_pops >= 75
+					OR = {
+						num_pops >= 75
+						is_capital = yes
+					}
 				}
 				save_event_target_as = hard
 			}
@@ -395,54 +400,37 @@ espionage_operation_event = {
 		}
 		# Add negative modifier based on situation progress.
 		if = {
-			limit = { exists = event_target:operation_target }
+			limit = {
+				exists = event_target:operation_target
+				exists = event_target:espionage_situation
+				event_target:espionage_situation = { situation_progress < 80 }
+			}
 			event_target:operation_target = {
 				if = {
-					limit = { NOT = { exists = event_target:espionage_situation } }
-					add_modifier = {
-						modifier = espsit_stolen_resources_10
-						months = @StealResourcesAmountMonths
-					}
-				}
-				else_if = {
-					limit = { event_target:espionage_situation = { situation_progress > 90 } }
-					add_modifier = {
-						modifier = espsit_stolen_resources_10
-						months = @StealResourcesAmountMonths
-					}
-				}
-				else_if = {
-					limit = { event_target:espionage_situation = { situation_progress > 80 } }
-					add_modifier = {
-						modifier = espsit_stolen_resources_10
-						months = @StealResourcesAmountMonths
-					}
-				}
-				else_if = {
 					limit = { event_target:espionage_situation = { situation_progress > 70 } }
 					add_modifier = {
-						modifier = espsit_stolen_resources_20
+						modifier = espsit_stolen_resources_10
 						months = @StealResourcesAmountMonths
 					}
 				}
 				else_if = {
 					limit = { event_target:espionage_situation = { situation_progress > 60 } }
 					add_modifier = {
-						modifier = espsit_stolen_resources_30
+						modifier = espsit_stolen_resources_10
 						months = @StealResourcesAmountMonths
 					}
 				}
 				else_if = {
 					limit = { event_target:espionage_situation = { situation_progress > 50 } }
 					add_modifier = {
-						modifier = espsit_stolen_resources_30
+						modifier = espsit_stolen_resources_20
 						months = @StealResourcesAmountMonths
 					}
 				}
 				else_if = {
 					limit = { event_target:espionage_situation = { situation_progress > 40 } }
 					add_modifier = {
-						modifier = espsit_stolen_resources_40
+						modifier = espsit_stolen_resources_30
 						months = @StealResourcesAmountMonths
 					}
 				}
@@ -456,7 +444,7 @@ espionage_operation_event = {
 				else_if = {
 					limit = { event_target:espionage_situation = { situation_progress > 20 } }
 					add_modifier = {
-						modifier = espsit_stolen_resources_50
+						modifier = espsit_stolen_resources_40
 						months = @StealResourcesAmountMonths
 					}
 				}
@@ -469,7 +457,7 @@ espionage_operation_event = {
 				}
 				else = {
 					add_modifier = {
-						modifier = espsit_stolen_resources_60
+						modifier = espsit_stolen_resources_50
 						months = @StealResourcesAmountMonths
 					}
 				}

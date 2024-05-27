@@ -1,14 +1,14 @@
 
-@BaseProgress = 3.5
+@BaseProgress = 2.0
 @DifficultyProgressEasy = -1
 @DifficultyProgressNormal = 0
-@DifficultyProgressHard = 1
+@DifficultyProgressHard = 2
 
-@ApproachProgressWeak = 0.3
-@ApproachProgressLow = 1.0
-@ApproachProgressMedium = 1.4
-@ApproachProgressHigh = 2.8
-@ApproachProgressExtreme = 3.6
+@ApproachProgressWeak = 1.0
+@ApproachProgressLow = 1.5
+@ApproachProgressMedium = 2.5
+@ApproachProgressHigh = 3.0
+@ApproachProgressExtreme = 4.0
 
 # Steal Resources (target)
 situation_espionage_resources = {
@@ -131,52 +131,52 @@ situation_espionage_resources = {
 		modifier = {
 			desc = situation_espionage_resources_approach_basic_weak
 			current_situation_approach = situation_espionage_resources_approach_basic_weak
-			add = @ApproachProgressWeak
+			add = @ApproachProgressLow
 		}
 		modifier = {
 			desc = situation_espionage_resources_approach_basic_strong
 			current_situation_approach = situation_espionage_resources_approach_basic_strong
-			add = @ApproachProgressLow
+			add = @ApproachProgressMedium
 		}
 		modifier = {
 			desc = situation_espionage_resources_approach_weak_police
 			current_situation_approach = situation_espionage_resources_approach_weak_police
-			add = @ApproachProgressMedium
+			add = @ApproachProgressLow
 		}
 		modifier = {
 			desc = situation_espionage_resources_approach_strong_police
 			current_situation_approach = situation_espionage_resources_approach_strong_police
-			add = @ApproachProgressHigh
+			add =@ApproachProgressMedium
 		}
 		modifier = {
 			desc = situation_espionage_resources_approach_weak_soldiers
 			current_situation_approach = situation_espionage_resources_approach_weak_soldiers
-			add = @ApproachProgressMedium
+			add = @ApproachProgressLow
 		}
 		modifier = {
 			desc = situation_espionage_resources_approach_strong_soldiers
 			current_situation_approach = situation_espionage_resources_approach_strong_soldiers
-			add = @ApproachProgressHigh
+			add = @ApproachProgressMedium
 		}
 		modifier = {
 			desc = situation_espionage_resources_approach_weak_task_force
 			current_situation_approach = situation_espionage_resources_approach_weak_task_force
-			add = @ApproachProgressMedium
+			add = @ApproachProgressLow
 		}
 		modifier = {
 			desc = situation_espionage_resources_approach_strong_task_force
 			current_situation_approach = situation_espionage_resources_approach_strong_task_force
-			add = @ApproachProgressHigh
+			add = @ApproachProgressMedium
 		}
 		modifier = {
 			desc = situation_espionage_resources_approach_weak_counter
 			current_situation_approach = situation_espionage_resources_approach_weak_counter
-			add = @ApproachProgressHigh
+			add = @ApproachProgressMedium
 		}
 		modifier = {
 			desc = situation_espionage_resources_approach_strong_counter
 			current_situation_approach = situation_espionage_resources_approach_strong_counter
-			add = @ApproachProgressExtreme
+			add = @ApproachProgressHigh
 		}
 	}
 
@@ -323,7 +323,7 @@ situation_espionage_resources = {
 		}
 		triggered_target_modifier = {
 			modifier = {
-				pop_happiness = 0.08
+				pop_happiness = 0.10
 			}
 		}
 		resources = {
@@ -380,6 +380,8 @@ situation_espionage_resources = {
 			modifier = {
 				pop_happiness = -0.20
 				planet_stability_add = -15
+				planet_soldiers_unity_produces_add = 2.0
+				planet_jobs_produces_mult = 0.05
 			}
 		}
 		ai_weight = {
@@ -406,7 +408,7 @@ situation_espionage_resources = {
 		triggered_target_modifier = {
 			modifier = {
 				planet_jobs_unity_produces_mult = 0.10
-				planet_jobs_produces_mult = -0.05
+				planet_jobs_produces_mult = -0.03
 			}
 		}
 		ai_weight = {
