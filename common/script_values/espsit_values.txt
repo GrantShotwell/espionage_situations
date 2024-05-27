@@ -28,8 +28,10 @@ espsit_steal_resources_score = {
 	add = value:espsit_planet_energy|MULT|1|SCOPE|$SCOPE$|
 	add = value:espsit_planet_minerals|MULT|1|SCOPE|$SCOPE$|
 	add = value:espsit_planet_food|MULT|1|SCOPE|$SCOPE$|
-	add = value:espsit_planet_consumer_goods|MULT|1|SCOPE|$SCOPE$|
-	add = value:espsit_planet_alloys|MULT|1|SCOPE|$SCOPE$|
+	add = value:espsit_planet_consumer_goods|MULT|2|SCOPE|$SCOPE$|
+	add = value:espsit_planet_alloys|MULT|4|SCOPE|$SCOPE$|
+	divide = $DIV$
+	round = yes
 }
 
 espsit_planet_minerals = {
@@ -37,7 +39,7 @@ espsit_planet_minerals = {
 	add = value:espsit_pop_output|BASE|4|JOB|miner|SCOPE|$SCOPE$|
 	add = value:espsit_pop_output|BASE|4|JOB|mining_drone|SCOPE|$SCOPE$|
 	add = value:espsit_pop_output|BASE|2|JOB|scrap_miner|SCOPE|$SCOPE$|
-	add = value:espsit_pop_output|BASE|2|JOB|scrap_mining_drone|SCOPE|$SCOPE$|
+	add = value:espsit_pop_output|BASE|2|JOB|scrap_miner_drone|SCOPE|$SCOPE$|
 	mult = $MULT$
 }
 

@@ -1,6 +1,6 @@
 namespace = situation_operation
 
-@StealResourcesTimer = 10
+@StealResourcesTimer = 36000
 @StealResourcesAmountMonths = 24
 
 ## Steal Resources, Stage 1 ##
@@ -61,9 +61,16 @@ espionage_operation_event = {
 					is_capital = no
 					num_pops <= 25
 				}
+				# Save as event target for option.
 				save_event_target_as = easy
+				# Set the planet's score for display.
+				set_variable = {
+					which = espsit_steal_resources_score
+					value = value:espsit_steal_resources_score|SCOPE|this|DIV|10|
+				}
 			}
 			random_planet_within_border = {
+				# Select a random medium-difficulty planet.
 				limit = {
 					is_owned_by = from
 					is_capital = no
@@ -74,7 +81,13 @@ espionage_operation_event = {
 					num_pops > 25
 					num_pops < 75
 				}
+				# Save as event target for option.
 				save_event_target_as = norm
+				# Set the planet's score for display.
+				set_variable = {
+					which = espsit_steal_resources_score
+					value = value:espsit_steal_resources_score|SCOPE|this|DIV|10|
+				}
 			}
 			random_planet_within_border = {
 				limit = {
@@ -92,7 +105,13 @@ espionage_operation_event = {
 						is_capital = yes
 					}
 				}
+				# Save as event target for option.
 				save_event_target_as = hard
+				# Set the planet's score for display.
+				set_variable = {
+					which = espsit_steal_resources_score
+					value = value:espsit_steal_resources_score|SCOPE|this|DIV|10|
+				}
 			}
 		}
 	}

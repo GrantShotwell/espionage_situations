@@ -1,9 +1,9 @@
 ﻿l_english:
   situation_operation.1100.name: "Steal Resources: Infiltration"
   situation_operation.1100.desc: "Operatives will begin the process of creating false routes and depots on the planet of our choice."
-  situation_operation.1100.option.easy: "§G(easy)§! [easy.GetName]"
-  situation_operation.1100.option.norm: "§Y(medium)§! [norm.GetName]"
-  situation_operation.1100.option.hard: "§R(hard)§! [hard.GetName]"
+  situation_operation.1100.option.easy: "§G(easy, [event_target:easy.espsit_steal_resources_score])§! [event_target:easy.GetName]"
+  situation_operation.1100.option.norm: "§Y(medium, [event_target:norm.espsit_steal_resources_score])§! [event_target:norm.GetName]"
+  situation_operation.1100.option.hard: "§R(hard, [event_target:hard.espsit_steal_resources_score])§! [event_target:hard.GetName]"
   situation_operation.1200.name: "Steal Resources: Siphoning"
   situation_operation.1200.desc: "§Y[From.GetName]§! will no doubt be aware of our nefarious activity on §Y[operation_target.GetName]§!, although unable to pin down our operations at the moment. At this point, our operation's success and the strength of their response will determine our success."
   situation_operation.1201.name: "Misappropriated Resources"
