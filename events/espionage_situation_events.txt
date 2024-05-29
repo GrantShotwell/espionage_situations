@@ -357,13 +357,13 @@ espionage_operation_event = {
 		}
 	}
 
-	option = {
-		name = situation_operation.1900.option.destroy
-		allow = {
-			exists = event_target:espionage_situation
-			event_target:espionage_situation = { situation_progress < 50 }
-		}
-	}
+	# option = {
+	# 	name = situation_operation.1900.option.destroy
+	# 	allow = {
+	# 		exists = event_target:espionage_situation
+	# 		event_target:espionage_situation = { situation_progress < 50 }
+	# 	}
+	# }
 
 	immediate = {
 		# Save flagged planet as event scope for localization.
@@ -416,6 +416,37 @@ espionage_operation_event = {
 			}
 			# End the defender's situation.
 			abort_situation = event_target:espionage_situation
+		}
+		# Randomly select defender's outcome.
+		if = {
+			limit = { exists = event_target:operation_target }
+			random_list = {
+				# Attacker stays undiscovered.
+				10 = {
+					modifier = {
+						factor = 0
+						check_variable_arithmetic = {
+							which = value:espionage_situation_progress
+							value > 80
+						}
+					}
+					event_target:operation_target = {
+						planet_event = { id = situation_operation.1902 }
+					}
+				}
+				# Defender discovers attacker.
+				90 = {
+					modifier = {
+						factor = value:espionage_situation_multiplier
+					}
+					root.owner = {
+						save_event_target_as = espionage_aggressor
+					}
+					event_target:operation_target = {
+						planet_event = { id = situation_operation.1901 }
+					}
+				}
+			}
 		}
 		# Random chance to destroy asset.
 		random_list = {
@@ -513,5 +544,81 @@ espionage_operation_event = {
 		}
 		# End this operation.
 		destroy_espionage_operation = this
+	}
+}
+
+## Steal Resources, Results Stage: Defender's Window (discovered) ##
+planet_event = {
+	id = situation_operation.1901
+	title = situation_operation.1901.name
+	desc = {
+		text = situation_operation.1901.desc
+		trigger = {
+			owner = {
+				OR = {
+					is_homicidal = no
+					is_xenophobe = no
+					NOT = { is_same_species = event_target:espionage_aggressor }
+				}
+			}
+		}
+	}
+	desc = {
+		text = situation_operation.1901.desc.homicidal
+		trigger = {
+			owner = {
+				OR = {
+					is_homicidal = yes
+					is_xenophobe = yes
+				}
+				NOT = { is_same_species = event_target:espionage_aggressor }
+			}
+		}
+	}
+	picture = GFX_evt_ship_offloading_cargo
+	show_sound = event_ship_thrusters
+	is_triggered_only = yes
+
+	option = {
+		name = CURSES
+		owner = {
+			add_opinion_modifier = {
+				who = event_target:espionage_aggressor
+				modifier = opinion_exposed_major_espionage
+			}
+			add_trust = {
+				who = event_target:espionage_aggressor
+				amount = -20
+			}
+		}
+	}
+}
+
+## Steal Resources, Results Stage: Defender's Window (undiscovered) ##
+planet_event = {
+	id = situation_operation.1902
+	title = situation_operation.1902.name
+	desc = {
+		text = situation_operation.1902.desc
+		trigger = {
+			owner = { is_gestalt = no }
+		}
+	}
+	desc = {
+		text = situation_operation.1902.desc.gestalt
+		trigger = {
+			owner = { is_gestalt = yes }
+		}
+	}
+	picture = GFX_evt_ship_offloading_cargo
+	show_sound = event_ship_thrusters
+	is_triggered_only = yes
+
+	option = {
+		name = ACKNOWLEDGED
+		add_modifier = {
+			modifier = crime_boss_arrested
+			months = @StealResourcesAmountMonths
+		}
 	}
 }
