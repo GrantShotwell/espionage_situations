@@ -419,16 +419,14 @@ espionage_operation_event = {
 		}
 		# Random chance to destroy asset.
 		random_list = {
-			# Keep current asset.
+			# Keep all assets.
 			50 = {
 				modifier = {
 					factor = 0
 					has_espionage_operation_flag = difficulty_hard
 				}
 			}
-			# Destroy current asset.
-			# TODO: Currently only possible to destoy a random asset?
-			#       Why, Stellaris?? Let me destroy this one??
+			# Destroy an asset.
 			0 = {
 				modifier = {
 					add = 50
