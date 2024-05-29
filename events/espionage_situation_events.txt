@@ -417,6 +417,37 @@ espionage_operation_event = {
 			# End the defender's situation.
 			abort_situation = event_target:espionage_situation
 		}
+		# Random chance to destroy asset.
+		random_list = {
+			# Keep current asset.
+			50 = {
+				modifier = {
+					factor = 0
+					has_espionage_operation_flag = difficulty_hard
+				}
+			}
+			# Destroy current asset.
+			# TODO: Currently only possible to destoy a random asset?
+			#       Why, Stellaris?? Let me destroy this one??
+			0 = {
+				modifier = {
+					add = 50
+					has_espionage_asset_subterfuge = yes
+				}
+				modifier = {
+					add = 50
+					has_espionage_asset_economy = yes
+				}
+				modifier = {
+					factor = 0.5
+					has_espionage_operation_flag = difficulty_easy
+				}
+				locked_random_list = {
+					1 = { destroy_espionage_asset_subterfuge = yes }
+					1 = { destroy_espionage_asset_economy = yes }
+				}
+			}
+		}
 		# Add negative modifier based on situation progress.
 		if = {
 			limit = {
@@ -486,8 +517,3 @@ espionage_operation_event = {
 		destroy_espionage_operation = this
 	}
 }
-
-## Steal Resources, Results Stage: Defender Window ##
-# planet_event = {
-# 	#
-# }
