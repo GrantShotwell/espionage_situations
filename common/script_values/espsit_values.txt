@@ -10,7 +10,7 @@ espionage_situation_multiplier = {
 	divide = 100
 }
 
-espsit_pop_output = {
+espsit_job_output = {
 	# Base output of the job needs to be provided as an argument.
 	base = $BASE$
 	# Final output is number of pops working that job.
@@ -35,44 +35,44 @@ espsit_steal_resources_score = {
 }
 
 espsit_planet_minerals = {
-	add = value:espsit_pop_output|BASE|1|JOB|colonist|SCOPE|$SCOPE$|
-	add = value:espsit_pop_output|BASE|4|JOB|miner|SCOPE|$SCOPE$|
-	add = value:espsit_pop_output|BASE|4|JOB|mining_drone|SCOPE|$SCOPE$|
-	add = value:espsit_pop_output|BASE|2|JOB|scrap_miner|SCOPE|$SCOPE$|
-	add = value:espsit_pop_output|BASE|2|JOB|scrap_miner_drone|SCOPE|$SCOPE$|
+	add = value:espsit_job_output|BASE|1|JOB|colonist|SCOPE|$SCOPE$|
+	add = value:espsit_job_output|BASE|4|JOB|miner|SCOPE|$SCOPE$|
+	add = value:espsit_job_output|BASE|4|JOB|mining_drone|SCOPE|$SCOPE$|
+	add = value:espsit_job_output|BASE|2|JOB|scrap_miner|SCOPE|$SCOPE$|
+	add = value:espsit_job_output|BASE|2|JOB|scrap_miner_drone|SCOPE|$SCOPE$|
 	mult = $MULT$
 }
 
 espsit_planet_energy = {
-	add = value:espsit_pop_output|BASE|6|JOB|technician|SCOPE|$SCOPE$|
+	add = value:espsit_job_output|BASE|6|JOB|technician|SCOPE|$SCOPE$|
 	mult = $MULT$
 }
 
 espsit_planet_food = {
-	add = value:espsit_pop_output|BASE|1|JOB|colonist|SCOPE|$SCOPE$|
-	add = value:espsit_pop_output|BASE|6|JOB|farmer|SCOPE|$SCOPE$|
-	add = value:espsit_pop_output|BASE|6|JOB|agri_drone|SCOPE|$SCOPE$|
-	add = value:espsit_pop_output|BASE|8|JOB|angler|SCOPE|$SCOPE$|
+	add = value:espsit_job_output|BASE|1|JOB|colonist|SCOPE|$SCOPE$|
+	add = value:espsit_job_output|BASE|6|JOB|farmer|SCOPE|$SCOPE$|
+	add = value:espsit_job_output|BASE|6|JOB|agri_drone|SCOPE|$SCOPE$|
+	add = value:espsit_job_output|BASE|8|JOB|angler|SCOPE|$SCOPE$|
 	mult = $MULT$
 }
 
 espsit_planet_alloys = {
-	add = value:espsit_pop_output|BASE|3|JOB|foundry|SCOPE|$SCOPE$|
-	add = value:espsit_pop_output|BASE|4|JOB|alloy_drone|SCOPE|$SCOPE$|
-	add = value:espsit_pop_output|BASE|4|JOB|fabricator|SCOPE|$SCOPE$|
-	add = value:espsit_pop_output|BASE|1|JOB|scrap_miner|SCOPE|$SCOPE$|
-	add = value:espsit_pop_output|BASE|1|JOB|scrap_miner_drone|SCOPE|$SCOPE$|
-	add = value:espsit_pop_output|BASE|4|JOB|bluelotus_technician|SCOPE|$SCOPE$|
-	add = value:espsit_pop_output|BASE|4|JOB|bluelotus_drone|SCOPE|$SCOPE$|
-	add = value:espsit_pop_output|BASE|4|JOB|catalytic_technician|SCOPE|$SCOPE$|
-	add = value:espsit_pop_output|BASE|4|JOB|catalytic_drone|SCOPE|$SCOPE$|
+	add = value:espsit_job_output|BASE|3|JOB|foundry|SCOPE|$SCOPE$|
+	add = value:espsit_job_output|BASE|4|JOB|alloy_drone|SCOPE|$SCOPE$|
+	add = value:espsit_job_output|BASE|4|JOB|fabricator|SCOPE|$SCOPE$|
+	add = value:espsit_job_output|BASE|1|JOB|scrap_miner|SCOPE|$SCOPE$|
+	add = value:espsit_job_output|BASE|1|JOB|scrap_miner_drone|SCOPE|$SCOPE$|
+	add = value:espsit_job_output|BASE|4|JOB|bluelotus_technician|SCOPE|$SCOPE$|
+	add = value:espsit_job_output|BASE|4|JOB|bluelotus_drone|SCOPE|$SCOPE$|
+	add = value:espsit_job_output|BASE|4|JOB|catalytic_technician|SCOPE|$SCOPE$|
+	add = value:espsit_job_output|BASE|4|JOB|catalytic_drone|SCOPE|$SCOPE$|
 	mult = $MULT$
 }
 
 espsit_planet_consumer_goods = {
-	add = value:espsit_pop_output|BASE|6|JOB|artisan|SCOPE|$SCOPE$|
-	add = value:espsit_pop_output|BASE|6|JOB|artisan_drone|SCOPE|$SCOPE$|
-	add = value:espsit_pop_output|BASE|8|JOB|artificer|SCOPE|$SCOPE$|
-	add = value:espsit_pop_output|BASE|8|JOB|pearl_diver|SCOPE|$SCOPE$|
+	add = value:espsit_job_output|BASE|6|JOB|artisan|SCOPE|$SCOPE$|
+	add = value:espsit_job_output|BASE|6|JOB|artisan_drone|SCOPE|$SCOPE$|
+	add = value:espsit_job_output|BASE|8|JOB|artificer|SCOPE|$SCOPE$|
+	add = value:espsit_job_output|BASE|8|JOB|pearl_diver|SCOPE|$SCOPE$|
 	mult = $MULT$
 }
