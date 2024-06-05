@@ -2,3 +2,211 @@
 espsit_operation_resources_events = {
 	# TODO
 }
+
+# Sets 'resources_xxx' variables to a scope.
+# $TARGET|this$ The scope to set variables to.
+# $SCOPE|this$ The scope to calculate resources from (ie. planet, country).
+# $MULT|1$ Multiplier value.
+espsit_set_resource_variables = {
+	espsit_set_resource_variables_empty = {
+		TARGET = $TARGET|this$
+	}
+	if = {
+		limit = { exists = $SCOPE$ }
+		$TARGET|this$ = {
+			$SCOPE|this$ = {
+				every_owned_pop = {
+					prevprevprev = {
+						change_variable = {
+							which = resources_energy
+							value = value:espsit_pop_output_energy|SCOPE|prev|
+						}
+						change_variable = {
+							which = resources_minerals
+							value = value:espsit_pop_output_minerals|SCOPE|prev|
+						}
+						change_variable = {
+							which = resources_food
+							value = value:espsit_pop_output_food|SCOPE|prev|
+						}
+						change_variable = {
+							which = resources_alloys
+							value = value:espsit_pop_output_alloys|SCOPE|prev|
+						}
+						change_variable = {
+							which = resources_consumer_goods
+							value = value:espsit_pop_output_consumer_goods|SCOPE|prev|
+						}
+						change_variable = {
+							which = resources_volatile_motes
+							value = value:espsit_pop_output_volatile_motes|SCOPE|prev|
+						}
+						change_variable = {
+							which = resources_exotic_gases
+							value = value:espsit_pop_output_exotic_gases|SCOPE|prev|
+						}
+						change_variable = {
+							which = resources_rare_crystals
+							value = value:espsit_pop_output_rare_crystals|SCOPE|prev|
+						}	
+					}
+				}
+			}
+		}
+	}
+	$TARGET|this$ = {
+		multiply_variable = {
+			which = resources_energy
+			value = $MULT|1$
+		}
+		multiply_variable = {
+			which = resources_minerals
+			value = $MULT|1$
+		}
+		multiply_variable = {
+			which = resources_food
+			value = $MULT|1$
+		}
+		multiply_variable = {
+			which = resources_alloys
+			value = $MULT|1$
+		}
+		multiply_variable = {
+			which = resources_consumer_goods
+			value = $MULT|1$
+		}
+		multiply_variable = {
+			which = resources_volatile_motes
+			value = $MULT|1$
+		}
+		multiply_variable = {
+			which = resources_exotic_gases
+			value = $MULT|1$
+		}
+		multiply_variable = {
+			which = resources_rare_crystals
+			value = $MULT|1$
+		}
+	}
+}
+
+# Sets 'resources_xxx' variables to zero.
+# $TARGET|this$ The scope to set variables to.
+espsit_set_resource_variables_empty = {
+	$TARGET|this$ = {
+		set_variable = {
+			which = resources_energy
+			value = 0
+		}
+		set_variable = {
+			which = resources_minerals
+			value = 0
+		}
+		set_variable = {
+			which = resources_food
+			value = 0
+		}
+		set_variable = {
+			which = resources_alloys
+			value = 0
+		}
+		set_variable = {
+			which = resources_consumer_goods
+			value = 0
+		}
+		set_variable = {
+			which = resources_volatile_motes
+			value = 0
+		}
+		set_variable = {
+			which = resources_exotic_gases
+			value = 0
+		}
+		set_variable = {
+			which = resources_rare_crystals
+			value = 0
+		}
+	}
+}
+
+# Sets the 'resources_all' variable to a scope, aggregates 'resources_xxx'.
+# $TARGET|this$ The scope to set variables to.
+espsit_set_resource_variables_aggregate = {
+	$TARGET|this$ = {
+		set_variable = {
+			which = resources_all
+			value = 0
+		}
+		change_variable = {
+			which = resources_all
+			value = this.resources_energy
+		}
+		change_variable = {
+			which = resources_all
+			value = this.resources_minerals
+		}
+		change_variable = {
+			which = resources_all
+			value = this.resources_food
+		}
+		change_variable = {
+			which = resources_all
+			value = this.resources_alloys
+		}
+		change_variable = {
+			which = resources_all
+			value = this.resources_consumer_goods
+		}
+		change_variable = {
+			which = resources_all
+			value = this.resources_volatile_motes
+		}
+		change_variable = {
+			which = resources_all
+			value = this.resources_exotic_gases
+		}
+		change_variable = {
+			which = resources_all
+			value = this.resources_rare_crystals
+		}
+	}
+}
+
+# Multiplies each 'resources_xxx' value by its market price.
+# $TARGET|this$ The scope to set variables to.
+espsit_mult_resource_variables_value = {
+	$TARGET|this$ = {
+		multiply_variable = {
+			which = resources_energy
+			value = 1
+		}
+		multiply_variable = {
+			which = resources_minerals
+			value = 1
+		}
+		multiply_variable = {
+			which = resources_food
+			value = 1
+		}
+		multiply_variable = {
+			which = resources_consumer_goods
+			value = 2
+		}
+		multiply_variable = {
+			which = resources_alloys
+			value = 4
+		}
+		multiply_variable = {
+			which = resources_volatile_motes
+			value = 10
+		}
+		multiply_variable = {
+			which = resources_exotic_gases
+			value = 10
+		}
+		multiply_variable = {
+			which = resources_rare_crystals
+			value = 10
+		}
+	}
+}
