@@ -1,6 +1,6 @@
 namespace = situation_operation
 
-@DefenderDiscoveryBias = 0.5
+@DefenderDiscoveryBias = 0.75
 
 @StealResourcesTimer = 5400
 @StealResourcesAmountMonths = 24
@@ -401,6 +401,18 @@ espionage_operation_event = {
 				which = resources_consumer_goods
 				value = 0
 			}
+			set_variable = {
+				which = resources_volatile_motes
+				value = 0
+			}
+			set_variable = {
+				which = resources_exotic_gases
+				value = 0
+			}
+			set_variable = {
+				which = resources_rare_crystals
+				value = 0
+			}
 		}
 		if = {
 			limit = {
@@ -433,6 +445,18 @@ espionage_operation_event = {
 							which = resources_consumer_goods
 							value = value:espsit_pop_output_consumer_goods|SCOPE|prev|
 						}
+						change_variable = {
+							which = resources_volatile_motes
+							value = value:espsit_pop_output_volatile_motes|SCOPE|prev|
+						}
+						change_variable = {
+							which = resources_exotic_gases
+							value = value:espsit_pop_output_exotic_gases|SCOPE|prev|
+						}
+						change_variable = {
+							which = resources_rare_crystals
+							value = value:espsit_pop_output_rare_crystals|SCOPE|prev|
+						}
 					}
 				}
 			}
@@ -456,6 +480,18 @@ espionage_operation_event = {
 				}
 				multiply_variable = {
 					which = resources_consumer_goods
+					value = value:espionage_situation_multiplier
+				}
+				multiply_variable = {
+					which = resources_volatile_motes
+					value = value:espionage_situation_multiplier
+				}
+				multiply_variable = {
+					which = resources_exotic_gases
+					value = value:espionage_situation_multiplier
+				}
+				multiply_variable = {
+					which = resources_rare_crystals
 					value = value:espionage_situation_multiplier
 				}
 			}
@@ -496,6 +532,18 @@ espionage_operation_event = {
 					consumer_goods = @StealResourcesAmountMonths
 					mult = root.resources_consumer_goods
 				}
+				add_resource = {
+					volatile_motes = @StealResourcesAmountMonths
+					mult = root.resources_volatile_motes
+				}
+				add_resource = {
+					exotic_gases = @StealResourcesAmountMonths
+					mult = root.resources_exotic_gases
+				}
+				add_resource = {
+					rare_crystals = @StealResourcesAmountMonths
+					mult = root.resources_rare_crystals
+				}
 			}
 			# End the defender's situation.
 			abort_situation = event_target:espionage_situation
@@ -523,7 +571,7 @@ espionage_operation_event = {
 						add = value:espionage_situation_progress
 						check_variable_arithmetic = {
 							which = value:espionage_situation_progress
-							value > 40
+							value > 20
 						}
 					}
 					modifier = {

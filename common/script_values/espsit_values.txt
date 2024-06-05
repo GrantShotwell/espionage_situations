@@ -109,6 +109,33 @@ espsit_pop_output_consumer_goods = {
 	add = value:espsit_pop_output|BASE|8|SCOPE|$SCOPE$|RESOURCE|consumer_goods|JOB|pearl_diver|
 }
 
+# Calculates the resources produced by a pop. Probably expensive?
+# $SCOPE$ The pop.
+espsit_pop_output_volatile_motes = {
+	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|volatile_motes|JOB|chemist|
+	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|volatile_motes|JOB|chemist_drone|
+	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|volatile_motes|JOB|mote_harvester|
+	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|volatile_motes|JOB|mote_harvesting_drone|
+}
+
+# Calculates the resources produced by a pop. Probably expensive?
+# $SCOPE$ The pop.
+espsit_pop_output_exotic_gases = {
+	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|exotic_gases|JOB|gas_refiner|
+	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|exotic_gases|JOB|gas_refiner_drone|
+	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|exotic_gases|JOB|gas_extractor|
+	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|exotic_gases|JOB|gas_extraction_drone|
+}
+
+# Calculates the resources produced by a pop. Probably expensive?
+# $SCOPE$ The pop.
+espsit_pop_output_rare_crystals = {
+	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|rare_crystals|JOB|translucer|
+	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|rare_crystals|JOB|translucer_drone|
+	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|rare_crystals|JOB|crystal_miner|
+	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|rare_crystals|JOB|crystal_mining_drone|
+}
+
 espsit_steal_resources_score = {
 	add = value:espsit_planet_energy|MULT|1|SCOPE|$SCOPE$|
 	add = value:espsit_planet_minerals|MULT|1|SCOPE|$SCOPE$|
