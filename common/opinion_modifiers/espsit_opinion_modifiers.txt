@@ -1,10 +1,10 @@
 
 opinion_exposed_major_espionage = {
 	opinion = {
-		base = -200
+		base = -100
 	}
 	decay = {
-		base = 0.5
+		base = 1
 		modifier = {
 			factor = value:negative_opinion_decay_rate
 		}

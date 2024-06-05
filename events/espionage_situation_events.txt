@@ -1,5 +1,7 @@
 namespace = situation_operation
 
+@DefenderDiscoveryBias = 0.5
+
 @StealResourcesTimer = 5400
 @StealResourcesAmountMonths = 24
 
@@ -422,7 +424,7 @@ espionage_operation_event = {
 			limit = { exists = event_target:operation_target }
 			random_list = {
 				# Attacker stays undiscovered.
-				10 = {
+				100 = {
 					modifier = {
 						factor = 0
 						check_variable_arithmetic = {
@@ -435,9 +437,16 @@ espionage_operation_event = {
 					}
 				}
 				# Defender discovers attacker.
-				90 = {
+				0 = {
 					modifier = {
-						factor = value:espionage_situation_multiplier
+						add = value:espionage_situation_progress
+						check_variable_arithmetic = {
+							which = value:espionage_situation_progress
+							value > 40
+						}
+					}
+					modifier = {
+						mult = @DefenderDiscoveryBias
 					}
 					root.owner = {
 						save_event_target_as = espionage_aggressor
@@ -564,7 +573,7 @@ planet_event = {
 		}
 	}
 	desc = {
-		text = situation_operation.1901.desc.homicidal
+		text = situation_operation.1901.desc.xenophobe
 		trigger = {
 			owner = {
 				OR = {
