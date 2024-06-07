@@ -1,6 +1,6 @@
 
 espsit_stolen_resources_10 = {
-	icon = "gfx/interface/icons/planet_modifiers/capital.dds"
+	icon = "gfx/interface/icons/planet_modifiers/pm_resources.dds"
 	icon_frame = 3
 	planet_jobs_energy_produces_mult = -0.10
 	planet_jobs_minerals_produces_mult = -0.10
@@ -10,7 +10,7 @@ espsit_stolen_resources_10 = {
 }
 
 espsit_stolen_resources_20 = {
-	icon = "gfx/interface/icons/planet_modifiers/capital.dds"
+	icon = "gfx/interface/icons/planet_modifiers/pm_resources.dds"
 	icon_frame = 3
 	planet_jobs_energy_produces_mult = -0.20
 	planet_jobs_minerals_produces_mult = -0.20
@@ -20,7 +20,7 @@ espsit_stolen_resources_20 = {
 }
 
 espsit_stolen_resources_30 = {
-	icon = "gfx/interface/icons/planet_modifiers/capital.dds"
+	icon = "gfx/interface/icons/planet_modifiers/pm_resources.dds"
 	icon_frame = 3
 	planet_jobs_energy_produces_mult = -0.30
 	planet_jobs_minerals_produces_mult = -0.30
@@ -30,7 +30,7 @@ espsit_stolen_resources_30 = {
 }
 
 espsit_stolen_resources_40 = {
-	icon = "gfx/interface/icons/planet_modifiers/capital.dds"
+	icon = "gfx/interface/icons/planet_modifiers/pm_resources.dds"
 	icon_frame = 3
 	planet_jobs_energy_produces_mult = -0.40
 	planet_jobs_minerals_produces_mult = -0.40
@@ -40,7 +40,7 @@ espsit_stolen_resources_40 = {
 }
 
 espsit_stolen_resources_50 = {
-	icon = "gfx/interface/icons/planet_modifiers/capital.dds"
+	icon = "gfx/interface/icons/planet_modifiers/pm_resources.dds"
 	icon_frame = 3
 	planet_jobs_energy_produces_mult = -0.50
 	planet_jobs_minerals_produces_mult = -0.50
@@ -50,7 +50,7 @@ espsit_stolen_resources_50 = {
 }
 
 espsit_stolen_resources_60 = {
-	icon = "gfx/interface/icons/planet_modifiers/capital.dds"
+	icon = "gfx/interface/icons/planet_modifiers/pm_resources.dds"
 	icon_frame = 3
 	planet_jobs_energy_produces_mult = -0.60
 	planet_jobs_minerals_produces_mult = -0.60
@@ -60,7 +60,7 @@ espsit_stolen_resources_60 = {
 }
 
 espsit_stolen_resources_70 = {
-	icon = "gfx/interface/icons/planet_modifiers/capital.dds"
+	icon = "gfx/interface/icons/planet_modifiers/pm_resources.dds"
 	icon_frame = 3
 	planet_jobs_energy_produces_mult = -0.70
 	planet_jobs_minerals_produces_mult = -0.70
@@ -70,7 +70,7 @@ espsit_stolen_resources_70 = {
 }
 
 espsit_stolen_resources_80 = {
-	icon = "gfx/interface/icons/planet_modifiers/capital.dds"
+	icon = "gfx/interface/icons/planet_modifiers/pm_resources.dds"
 	icon_frame = 3
 	planet_jobs_energy_produces_mult = -0.80
 	planet_jobs_minerals_produces_mult = -0.80
@@ -80,7 +80,7 @@ espsit_stolen_resources_80 = {
 }
 
 espsit_stolen_resources_90 = {
-	icon = "gfx/interface/icons/planet_modifiers/capital.dds"
+	icon = "gfx/interface/icons/planet_modifiers/pm_resources.dds"
 	icon_frame = 3
 	planet_jobs_energy_produces_mult = -0.90
 	planet_jobs_minerals_produces_mult = -0.90
@@ -90,7 +90,7 @@ espsit_stolen_resources_90 = {
 }
 
 espsit_stolen_resources_100 = {
-	icon = "gfx/interface/icons/planet_modifiers/capital.dds"
+	icon = "gfx/interface/icons/planet_modifiers/pm_resources.dds"
 	icon_frame = 3
 	planet_jobs_energy_produces_mult = -1.00
 	planet_jobs_minerals_produces_mult = -1.00
