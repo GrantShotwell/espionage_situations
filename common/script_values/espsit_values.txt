@@ -10,128 +10,15 @@ espionage_situation_multiplier = {
 	divide = 100
 }
 
-# Counts the number of worked jobs, multiplied by a base value.
-# Can be scoped to anything, hence $SCOPE$.
-# $JOB$ The job to count.
-# $BASE$ The base monthly output for the job.
-# $SCOPE$ Some scope where 'trigger:count_owned_pop' is valid.
-espsit_job_output = {
-	base = $BASE$
+# Counts the resources output by a pop.
+# Example: `espsit_pop_produces|SCOPE|prev|RESOURCE|minerals|`
+# $SCOPE|this$ The pop.
+# $RESOURCE$ The resource to count.
+espsit_pop_produces = {
 	complex_trigger_modifier = {
-		trigger = count_owned_pop
-		trigger_scope = $SCOPE$
-		parameters = {
-			limit = { has_job = $JOB$ }
-		}
-		mode = mult
-	}
-}
-
-# Modifier of +10% from check_economic_production_modifier_for_job is 0.1
-# But we want to multiply the base value by 1.1 instead.
-# And for negatives, -10% -> -0.1 -> 0.9
-# So... just add to 1.
-espsit_pop_output_modifier = {
-	base = 1
-	complex_trigger_modifier = {
-		trigger = check_economic_production_modifier_for_job
-		trigger_scope = $SCOPE$
-		parameters = {
-			job = $JOB$
-			resource = $RESOURCE$
-			species_modifiers_only = no
-		}
+		trigger = pop_produces_resource
+		trigger_scope = $SCOPE|this$
+		parameters = { type = $RESOURCE$ }
 		mode = add
 	}
-}
-
-# Counts the resources output by a pop.
-# $JOB$ The job to count the pop as working.
-# $BASE$ The base monthly output for the job.
-# $RESOURCE$ The resource to count.
-# $SCOPE$ The pop.
-espsit_pop_output = {
-	base = $BASE$
-	mult = value:espsit_pop_output_modifier|SCOPE|$SCOPE$|JOB|$JOB$|RESOURCE|$RESOURCE$|
-	modifier = {
-		factor = 0
-		$SCOPE$ = {
-			NOT = { has_job = $JOB$ }
-		}
-	}
-}
-
-# Calculates the resources produced by a pop. Probably expensive?
-# $SCOPE$ The pop.
-espsit_pop_output_energy = {
-	add = value:espsit_pop_output|BASE|6|SCOPE|$SCOPE$|RESOURCE|energy|JOB|technician|
-}
-
-# Calculates the resources produced by a pop. Probably expensive?
-# $SCOPE$ The pop.
-espsit_pop_output_minerals = {
-	add = value:espsit_pop_output|BASE|1|SCOPE|$SCOPE$|RESOURCE|minerals|JOB|colonist|
-	add = value:espsit_pop_output|BASE|4|SCOPE|$SCOPE$|RESOURCE|minerals|JOB|miner|
-	add = value:espsit_pop_output|BASE|4|SCOPE|$SCOPE$|RESOURCE|minerals|JOB|mining_drone|
-	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|minerals|JOB|scrap_miner|
-	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|minerals|JOB|scrap_miner_drone|
-}
-
-# Calculates the resources produced by a pop. Probably expensive?
-# $SCOPE$ The pop.
-espsit_pop_output_food = {
-	add = value:espsit_pop_output|BASE|1|SCOPE|$SCOPE$|RESOURCE|food|JOB|colonist|
-	add = value:espsit_pop_output|BASE|6|SCOPE|$SCOPE$|RESOURCE|food|JOB|farmer|
-	add = value:espsit_pop_output|BASE|6|SCOPE|$SCOPE$|RESOURCE|food|JOB|agri_drone|
-	add = value:espsit_pop_output|BASE|8|SCOPE|$SCOPE$|RESOURCE|food|JOB|angler|
-}
-
-# Calculates the resources produced by a pop. Probably expensive?
-# $SCOPE$ The pop.
-espsit_pop_output_alloys = {
-	add = value:espsit_pop_output|BASE|3|SCOPE|$SCOPE$|RESOURCE|alloys|JOB|foundry|
-	add = value:espsit_pop_output|BASE|4|SCOPE|$SCOPE$|RESOURCE|alloys|JOB|alloy_drone|
-	add = value:espsit_pop_output|BASE|4|SCOPE|$SCOPE$|RESOURCE|alloys|JOB|fabricator|
-	add = value:espsit_pop_output|BASE|1|SCOPE|$SCOPE$|RESOURCE|alloys|JOB|scrap_miner|
-	add = value:espsit_pop_output|BASE|1|SCOPE|$SCOPE$|RESOURCE|alloys|JOB|scrap_miner_drone|
-	add = value:espsit_pop_output|BASE|4|SCOPE|$SCOPE$|RESOURCE|alloys|JOB|bluelotus_technician|
-	add = value:espsit_pop_output|BASE|4|SCOPE|$SCOPE$|RESOURCE|alloys|JOB|bluelotus_drone|
-	add = value:espsit_pop_output|BASE|4|SCOPE|$SCOPE$|RESOURCE|alloys|JOB|catalytic_technician|
-	add = value:espsit_pop_output|BASE|4|SCOPE|$SCOPE$|RESOURCE|alloys|JOB|catalytic_drone|
-}
-
-# Calculates the resources produced by a pop. Probably expensive?
-# $SCOPE$ The pop.
-espsit_pop_output_consumer_goods = {
-	add = value:espsit_pop_output|BASE|6|SCOPE|$SCOPE$|RESOURCE|consumer_goods|JOB|artisan|
-	add = value:espsit_pop_output|BASE|6|SCOPE|$SCOPE$|RESOURCE|consumer_goods|JOB|artisan_drone|
-	add = value:espsit_pop_output|BASE|8|SCOPE|$SCOPE$|RESOURCE|consumer_goods|JOB|artificer|
-	add = value:espsit_pop_output|BASE|8|SCOPE|$SCOPE$|RESOURCE|consumer_goods|JOB|pearl_diver|
-}
-
-# Calculates the resources produced by a pop. Probably expensive?
-# $SCOPE$ The pop.
-espsit_pop_output_volatile_motes = {
-	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|volatile_motes|JOB|chemist|
-	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|volatile_motes|JOB|chemist_drone|
-	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|volatile_motes|JOB|mote_harvester|
-	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|volatile_motes|JOB|mote_harvesting_drone|
-}
-
-# Calculates the resources produced by a pop. Probably expensive?
-# $SCOPE$ The pop.
-espsit_pop_output_exotic_gases = {
-	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|exotic_gases|JOB|gas_refiner|
-	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|exotic_gases|JOB|gas_refiner_drone|
-	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|exotic_gases|JOB|gas_extractor|
-	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|exotic_gases|JOB|gas_extraction_drone|
-}
-
-# Calculates the resources produced by a pop. Probably expensive?
-# $SCOPE$ The pop.
-espsit_pop_output_rare_crystals = {
-	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|rare_crystals|JOB|translucer|
-	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|rare_crystals|JOB|translucer_drone|
-	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|rare_crystals|JOB|crystal_miner|
-	add = value:espsit_pop_output|BASE|2|SCOPE|$SCOPE$|RESOURCE|rare_crystals|JOB|crystal_mining_drone|
 }

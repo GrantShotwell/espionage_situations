@@ -19,35 +19,35 @@ espsit_set_resource_variables = {
 					prevprevprev = {
 						change_variable = {
 							which = resources_energy
-							value = value:espsit_pop_output_energy|SCOPE|prev|
+							value = value:espsit_pop_produces|SCOPE|prev|RESOURCE|energy|
 						}
 						change_variable = {
 							which = resources_minerals
-							value = value:espsit_pop_output_minerals|SCOPE|prev|
+							value = value:espsit_pop_produces|SCOPE|prev|RESOURCE|minerals|
 						}
 						change_variable = {
 							which = resources_food
-							value = value:espsit_pop_output_food|SCOPE|prev|
+							value = value:espsit_pop_produces|SCOPE|prev|RESOURCE|food|
 						}
 						change_variable = {
 							which = resources_alloys
-							value = value:espsit_pop_output_alloys|SCOPE|prev|
+							value = value:espsit_pop_produces|SCOPE|prev|RESOURCE|alloys|
 						}
 						change_variable = {
 							which = resources_consumer_goods
-							value = value:espsit_pop_output_consumer_goods|SCOPE|prev|
+							value = value:espsit_pop_produces|SCOPE|prev|RESOURCE|consumer_goods|
 						}
 						change_variable = {
 							which = resources_volatile_motes
-							value = value:espsit_pop_output_volatile_motes|SCOPE|prev|
+							value = value:espsit_pop_produces|SCOPE|prev|RESOURCE|volatile_motes|
 						}
 						change_variable = {
 							which = resources_exotic_gases
-							value = value:espsit_pop_output_exotic_gases|SCOPE|prev|
+							value = value:espsit_pop_produces|SCOPE|prev|RESOURCE|exotic_gases|
 						}
 						change_variable = {
 							which = resources_rare_crystals
-							value = value:espsit_pop_output_rare_crystals|SCOPE|prev|
+							value = value:espsit_pop_produces|SCOPE|prev|RESOURCE|rare_crystals|
 						}	
 					}
 				}
