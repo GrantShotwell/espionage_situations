@@ -27,6 +27,7 @@ situation_espionage_resources = {
 		target = {
 			save_event_target_as = operation_target
 		}
+		espsit_set_resource_variables = { TARGET = root SCOPE = target }
 	}
 
 	on_monthly = {
@@ -195,7 +196,11 @@ situation_espionage_resources = {
 			planet_jobs_society_research_produces_mult = 0.15
 		}
 		ai_weight = {
-			base = 0
+			base = 10
+			modifier = {
+				factor = 0
+				check_variable = { which = economy_score value > 30 }
+			}
 		}
 	}
 
@@ -217,6 +222,10 @@ situation_espionage_resources = {
 		}
 		ai_weight = {
 			base = 10
+			modifier = {
+				add = 10
+				check_variable = { which = economy_score value > 50 }
+			}
 		}
 	}
 
@@ -245,6 +254,10 @@ situation_espionage_resources = {
 		}
 		ai_weight = {
 			base = 10
+			modifier = {
+				add = 20
+				check_variable = { which = economy_score value > 100 }
+			}
 		}
 	}
 
@@ -261,11 +274,15 @@ situation_espionage_resources = {
 		}
 		triggered_target_modifier = {
 			pop_happiness = -0.10
-			planet_enforcers_unity_produces_add = 1
+			planet_enforcers_unity_produces_add = 0.5
 			planet_jobs_unity_produces_mult = 0.10
 		}
 		ai_weight = {
-			base = 20
+			base = 10
+			modifier = {
+				add = 10
+				check_variable = { which = economy_score value > 50 }
+			}
 		}
 	}
 
@@ -282,10 +299,14 @@ situation_espionage_resources = {
 		}
 		triggered_target_modifier = {
 			pop_happiness = -0.20
-			planet_enforcers_unity_produces_add = 2
+			planet_enforcers_unity_produces_add = 1
 		}
 		ai_weight = {
-			base = 20
+			base = 10
+			modifier = {
+				add = 20
+				check_variable = { which = economy_score value > 100 }
+			}
 		}
 	}
 
@@ -310,7 +331,11 @@ situation_espionage_resources = {
 			}
 		}
 		ai_weight = {
-			base = 20
+			base = 10
+			modifier = {
+				add = 10
+				check_variable = { which = economy_score value > 50 }
+			}
 		}
 	}
 
@@ -335,7 +360,11 @@ situation_espionage_resources = {
 			}
 		}
 		ai_weight = {
-			base = 20
+			base = 10
+			modifier = {
+				add = 20
+				check_variable = { which = economy_score value > 100 }
+			}
 		}
 	}
 
@@ -356,7 +385,11 @@ situation_espionage_resources = {
 			planet_soldiers_unity_produces_add = 1.0
 		}
 		ai_weight = {
-			base = 20
+			base = 10
+			modifier = {
+				add = 10
+				check_variable = { which = economy_score value > 50 }
+			}
 		}
 	}
 
@@ -380,7 +413,11 @@ situation_espionage_resources = {
 			planet_soldiers_unity_produces_add = 2.0
 		}
 		ai_weight = {
-			base = 20
+			base = 10
+			modifier = {
+				add = 20
+				check_variable = { which = economy_score value > 100 }
+			}
 		}
 	}
 
@@ -397,15 +434,19 @@ situation_espionage_resources = {
 		}
 		triggered_modifier = {
 			modifier = {
-				hostile_operation_steal_resources_difficulty_add = 2
+				intel_encryption_add = 1
 			}
 		}
 		triggered_target_modifier = {
-			planet_jobs_unity_produces_mult = 0.30
 			planet_jobs_produces_mult = -0.05
+			planet_jobs_unity_produces_mult = 0.20
 		}
 		ai_weight = {
-			base = 20
+			base = 10
+			modifier = {
+				add = 10
+				check_variable = { which = economy_score value > 50 }
+			}
 		}
 	}
 
@@ -423,15 +464,18 @@ situation_espionage_resources = {
 		triggered_modifier = {
 			modifier = {
 				intel_encryption_add = 1
-				hostile_operation_steal_resources_difficulty_add = 2
 			}
 		}
 		triggered_target_modifier = {
-			planet_jobs_unity_produces_mult = 0.30
 			planet_jobs_produces_mult = -0.10
+			planet_jobs_unity_produces_mult = 0.30
 		}
 		ai_weight = {
-			base = 20
+			base = 10
+			modifier = {
+				add = 20
+				check_variable = { which = economy_score value > 100 }
+			}
 		}
 	}
 
