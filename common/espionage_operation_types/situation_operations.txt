@@ -28,7 +28,7 @@
 operation_steal_resources = {
 	target = none
 	categories = { op_cat_subterfuge op_cat_economy }
-	picture = GFX_evt_pirate_armada
+	picture = GFX_evt_cargoship_caravan
 	desc = operation_steal_resources_desc
 	stages = 3
 	spy_power_cost = 50
