@@ -5,6 +5,9 @@ namespace = situation_operation
 @StealResourcesTimer = 5400
 @StealResourcesAmountMonths = 24
 
+@IncreaseCrimeTimer = 5400
+@IncreaseCrimeDurationYears = 15
+
 ## Steal Resources, Stage 1 ##
 espionage_operation_event = {
 	id = situation_operation.1100
@@ -727,6 +730,7 @@ espionage_operation_event = {
 	picture = GFX_evt_underground_city
 	show_sound = event_default
 	espionage_operation = yes
+	is_triggered_only = yes
 
 	option = {
 		name = situation_operation.2100.option.nothing
@@ -841,4 +845,369 @@ espionage_operation_event = {
 		# Start operation rolls.
 		set_espionage_operation_progress_locked = no
 	}
+}
+
+## Increase Crime, Stage 2 ##
+# Just for setting the 'crime_option_xxx' flag on the operation.
+espionage_operation_event = {
+	id = situation_operation.2200
+	title = situation_operation.2200.name
+	desc = situation_operation.2200.desc
+	picture = GFX_evt_bribery
+	show_sound = event_default
+	espionage_operation = yes
+	is_triggered_only = yes
+
+	immediate = {
+		espsit_set_operation_target = yes
+	}
+
+	option = {
+		name = situation_operation.2200.option.normal_leader
+		trigger = { from = { is_gestalt = no } }
+		hidden_effect = { set_espionage_operation_flag = crime_option_normal_leader }
+	}
+
+	option = {
+		name = situation_operation.2200.option.normal_underworld
+		trigger = { from = { is_gestalt = no } }
+		hidden_effect = { set_espionage_operation_flag = crime_option_normal_underworld }
+	}
+
+	option = {
+		name = situation_operation.2200.option.normal_police
+		trigger = { from = { is_gestalt = no } }
+		hidden_effect = { set_espionage_operation_flag = crime_option_normal_police }
+	}
+
+	option = {
+		name = situation_operation.2200.option.gestalt_underworld
+		trigger = { from = { is_gestalt = yes } }
+		hidden_effect = { set_espionage_operation_flag = crime_option_gestalt_underworld }
+	}
+
+	option = {
+		name = situation_operation.2200.option.gestalt_separate
+		trigger = { from = { is_gestalt = yes } }
+		hidden_effect = { set_espionage_operation_flag = crime_option_gestalt_separate }
+	}
+
+	after = {
+		#
+	}
+}
+
+## Increase Crime, Stage 3 ##
+# Start the defender's situation.
+espionage_operation_event = {
+	id = situation_operation.2300
+	title = situation_operation.2300.name
+	desc = {
+		text = situation_operation.2300.desc.normal_leader
+		trigger = { has_espionage_operation_flag = crime_option_normal_leader }
+	}
+	desc = {
+		text = situation_operation.2300.desc.normal_underworld
+		trigger = { has_espionage_operation_flag = crime_option_normal_underworld }
+	}
+	desc = {
+		text = situation_operation.2300.desc.normal_police
+		trigger = { has_espionage_operation_flag = crime_option_normal_police }
+	}
+	desc = {
+		text = situation_operation.2300.desc.gestalt_separate
+		trigger = { has_espionage_operation_flag = crime_option_gestalt_underworld }
+	}
+	desc = {
+		text = situation_operation.2300.desc.gestalt_underworld
+		trigger = { has_espionage_operation_flag = crime_option_gestalt_separate }
+	}
+	picture = GFX_evt_bribery
+	show_sound = event_default
+	espionage_operation = yes
+	is_triggered_only = yes
+
+	immediate = {
+		espsit_set_operation_target = yes
+	}
+
+	option = {
+		name = LAUNCH_OPERATION
+	}
+
+	after = {
+		# TODO: Start situation for defender.
+	}
+}
+
+## Increase Crime, Results Stage ##
+espionage_operation_event = {
+	id = situation_operation.2900
+	title = situation_operation.2900.desc
+	picture = GFX_evt_black_market
+	show_sound = event_espionage_concluded
+	espionage_operation = yes
+	is_triggered_only = yes
+
+	immediate = {
+		espsit_set_operation_target = yes
+		if = {
+			limit = { espsit_operation_failed = { PROGRESS = 80 } }
+			set_espionage_operation_flag = operation_failed
+			set_variable = {
+				which = modifier_duration
+				value = 0
+			}
+		}
+		else = {
+			# Set variables from situation progress.
+			set_variable = {
+				which = situation_progress
+				value = value:espionage_situation_progress
+			}
+			set_variable = {
+				which = modifier_duration
+				value = @IncreaseCrimeDurationYears
+			}
+			multiply_variable = {
+				which = modifier_duration
+				value = value:espionage_situation_multiplier
+			}
+			# End defender's situation.
+			abort_situation = event_target:espionage_situation
+		}
+	}
+
+	option = {
+		name = situation_operation.2900.option.fail
+		trigger = { has_espionage_operation_flag = operation_failed }
+	}
+
+	option = {
+		name = situation_operation.2900.option.normal_leader
+		trigger = {
+			NOT = { has_espionage_operation_flag = operation_failed }
+			has_espionage_operation_flag = crime_option_normal_leader
+		}
+		allow = {
+			exists = event_target:operation_target.leader
+		}
+		event_target:operation_target.leader = {
+			add_experience = -1 # TODO: Add corrupt trait.
+		}
+		if = {
+			limit = { check_variable = { which = root.situation_progress value < 40 } }
+			event_target:operation_target = {
+				add_modifier = {
+					modifier = crime_wave
+					years = root.modifier_duration
+				}
+			}
+		}
+	}
+
+	option = {
+		name = situation_operation.2900.option.normal_rulers
+		trigger = {
+			NOT = { has_espionage_operation_flag = operation_failed }
+			has_espionage_operation_flag = crime_option_normal_leader
+		}
+		event_target:operation_target = {
+			add_modifier = {
+				modifier = bribed_officials
+				years = root.modifier_duration
+			}
+			if = {
+				limit = { check_variable = { which = root.situation_progress value < 40 } }
+				add_modifier = {
+					modifier = crime_wave
+					years = root.modifier_duration
+				}
+			}
+		}
+	}
+
+	option = {
+		name = situation_operation.2900.option.normal_underworld
+		trigger = {
+			NOT = { has_espionage_operation_flag = operation_failed }
+			has_espionage_operation_flag = crime_option_normal_underworld
+		}
+		event_target:operation_target = {
+			add_modifier = {
+				modifier = crime_wave
+				years = root.modifier_duration
+			}
+			if = {
+				limit = { check_variable = { which = root.situation_progress value < 40 } }
+				random_list = {
+					1 = {
+						add_modifier = {
+							modifier = criminal_underworld
+							years = root.modifier_duration
+						}
+					}
+					1 = {
+						add_modifier = {
+							modifier = cartel_war
+							years = root.modifier_duration
+						}
+					}
+					1 = {
+						add_modifier = {
+							modifier = substance_abuse
+							years = root.modifier_duration
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = situation_operation.2900.option.normal_police
+		trigger = {
+			NOT = { has_espionage_operation_flag = operation_failed }
+			has_espionage_operation_flag = crime_option_normal_police
+		}
+		event_target:operation_target = {
+			if = {
+				limit = { check_variable = { which = root.situation_progress value < 40 } }
+				add_modifier = {
+					modifier = crime_wave
+					years = root.modifier_duration
+				}
+			}
+			random_list = {
+				1 = {
+					add_modifier = {
+						modifier = espsit_degraded_police
+						years = root.modifier_duration
+					}
+				}
+				1 = {
+					add_modifier = {
+						modifier = espsit_degraded_justice
+						years = root.modifier_duration
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = situation_operation.2900.option.gestalt_underworld_supplies
+		trigger = {
+			NOT = { has_espionage_operation_flag = operation_failed }
+			has_espionage_operation_flag = crime_option_gestalt_underworld
+		}
+		if = {
+			limit = { owner = { is_machine_empire = yes } }
+			root.owner = {
+				add_resource = {
+					alloys = -50
+					energy = -200
+				}
+			}
+			event_target:operation_target = {
+				add_modifier = {
+					modifier = espsit_supplied_corruption
+					years = root.modifier_duration
+				}
+			}
+		}
+		else = {
+			root.owner = {
+				add_resource = {
+					food = -300
+				}
+			}
+			event_target:operation_target = {
+				add_modifier = {
+					modifier = espsit_supplied_deviancy
+					years = root.modifier_duration
+				}
+			}
+		}
+	}
+
+	option = {
+		name = situation_operation.2900.option.gestalt_underworld_weapons
+		trigger = {
+			NOT = { has_espionage_operation_flag = operation_failed }
+			has_espionage_operation_flag = crime_option_gestalt_underworld
+		}
+		if = {
+			limit = { owner = { is_machine_empire = yes } }
+			root.owner = {
+				add_resource = {
+					alloys = -300
+					energy = -100
+				}
+			}
+			event_target:operation_target = {
+				add_modifier = {
+					modifier = espsit_supplied_corruption
+					years = root.modifier_duration
+				}
+			}
+		}
+		else = {
+			root.owner = {
+				add_resource = {
+					alloys = -300
+					food = -100
+				}
+			}
+			event_target:operation_target = {
+				add_modifier = {
+					modifier = espsit_supplied_deviancy
+					years = root.modifier_duration
+				}
+			}
+		}
+	}
+
+	option = {
+		name = situation_operation.2900.option.gestalt_separate
+		trigger = {
+			NOT = { has_espionage_operation_flag = operation_failed }
+			has_espionage_operation_flag = crime_option_gestalt_separate
+		}
+		if = {
+			limit = { owner = { is_machine_empire = yes } }
+			event_target:operation_target = {
+				add_modifier = {
+					modifier = drone_corruption
+					years = root.modifier_duration
+				}
+			}
+		}
+		else = {
+			event_target:operation_target = {
+				add_modifier = {
+					modifier = drone_deviancy
+					years = root.modifier_duration
+				}
+			}
+		}
+	}
+
+	after = {
+		# Delay repeating this operation.
+		hidden_effect = {
+			spynetwork = {
+				set_saved_date = {
+					key = recently_increased_crime
+					days_from_present = @IncreaseCrimeTimer
+					expires = @IncreaseCrimeTimer
+				}
+			}
+		}
+		# TODO: Destroy random asset.
+		# TODO: Show defender window.
+		# End this operation.
+		destroy_espionage_operation = this
+	}
+
 }

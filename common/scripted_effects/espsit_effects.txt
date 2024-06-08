@@ -1,4 +1,13 @@
 
+espsit_set_operation_target = {
+	from = {
+		random_owned_planet = {
+			limit = { has_planet_flag = operation_target@root }
+			save_event_target_as = operation_target
+		}
+	}
+}
+
 espsit_operation_resources_events = {
 	# TODO
 }

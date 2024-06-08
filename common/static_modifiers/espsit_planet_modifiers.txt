@@ -98,3 +98,48 @@ espsit_stolen_resources_100 = {
 	planet_jobs_alloys_produces_mult = -1.00
 	planet_jobs_consumer_goods_produces_mult = -1.00
 }
+
+espsit_degraded_police = {
+	icon = "gfx/interface/icons/planet_modifiers/pm_crime.dds"
+	icon_frame = 3
+	planet_stability_add = -10
+	planet_enforcers_energy_produces_add = -1
+	planet_crime_mult = 0.20
+}
+
+espsit_degraded_justice = {
+	icon = "gfx/interface/icons/planet_modifiers/pm_crime.dds"
+	icon_frame = 3
+	planet_stability_add = -10
+	planet_crime_mult = 0.30
+}
+
+espsit_armed_deviancy = {
+	icon = "gfx/interface/icons/planet_modifiers/pm_crime.dds"
+	icon_frame = 3
+	planet_stability_add = -10
+	planet_crime_no_happiness_add = 20
+	job_deviant_drone_per_crime = 0.03
+}
+
+espsit_supplied_deviancy = {
+	icon = "gfx/interface/icons/planet_modifiers/pm_crime.dds"
+	icon_frame = 3
+	planet_crime_no_happiness_add = 30
+	job_deviant_drone_per_crime = 0.04
+}
+
+espsit_armed_corruption = {
+	icon = "gfx/interface/icons/planet_modifiers/pm_crime.dds"
+	icon_frame = 3
+	planet_stability_add = -10
+	planet_crime_no_happiness_add = 20
+	job_deviant_drone_per_crime = 0.02
+}
+
+espsit_supplied_corruption = {
+	icon = "gfx/interface/icons/planet_modifiers/pm_crime.dds"
+	icon_frame = 3
+	planet_crime_no_happiness_add = 30
+	job_deviant_drone_per_crime = 0.04
+}

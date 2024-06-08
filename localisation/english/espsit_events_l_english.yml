@@ -56,7 +56,7 @@
   situation_operation.2200.name: "Increase Crime: Probing"
   situation_operation.2200.desc: "More intelligence about our target planet, §Y[event_target:operation_target.GetName]§!, has arrived. The effectiveness of our approach is dependent on their government, and the evolving state of the planet. Once we have decided how to take advantage of their supervisory systems, we will begin preparing for the final stage."
   situation_operation.2200.option.nothing: "(no valid targets)"
-  situation_operation.2200.option.leader: "Target the planet's §Yleaders§!."
+  situation_operation.2200.option.normal_leader: "Target the planet's §Yleaders§! and §Yrulers§!."
   situation_operation.2200.option.normal_underworld: "Strengthen the existing §Ycrime§! population."
   situation_operation.2200.option.normal_police: "Weaken the planet's §Ypolice§! force."
   situation_operation.2200.option.gestalt_separate: "Separate §Ydrones§! from the gestalt consciousness."
@@ -64,7 +64,7 @@
 
   ## Increase Crime, Stage 3 ##
   situation_operation.2300.name: "Increase Crime: Corruption"
-  situation_operation.2300.desc.leader: "Our preparations are complete, and we are ready to act through the planet's §Yrulers§! and §Ygoverners§!. As we begin to target the ruling class of §Y[From.GetName]§! on §Y[event_target:operation_target.GetName]§!, they will learn of nefarious activity and be able to respond."
+  situation_operation.2300.desc.normal_leader: "Our preparations are complete, and we are ready to act through the planet's §Yrulers§! and §Ygoverners§!. As we begin to target the ruling class of §Y[From.GetName]§! on §Y[event_target:operation_target.GetName]§!, they will learn of nefarious activity and be able to respond."
   situation_operation.2300.desc.normal_underworld: "Our preparations are complete, and we are ready to begin strengthening and emboldening the planet's §Ycriminal population§!. Through targeted propaganda and misinformation, we can encourage susceptible individuals to strengthen certain criminal organizations we have identified. As these organizations begin to grow more powerful, §Y[From.GetName]§! will begin to notice the problem and be able to respond on §Y[event_target:operation_target.GetName]§!."
   situation_operation.2300.desc.normal_police: "Our preparations are complete, and we are ready to weaken the §Ypolice§! and criminal justice system on §Y[event_target:operation_target.GetName]§!. Multiple potential opportunities for corruption and degradation have been identified. As these issues become more apparent, §Y[From.GetName]§! will begin their response."
   situation_operation.2300.desc.gestalt_separate: "Our preparations are complete, and the process of detaching §Ydrones§! from their hive-mind can begin. The process is not simple, as success in our operation requires deviants to organize. There is no doubt §Y[From.GetName]§! will notice this activity on §Y[event_target:operation_target.GetName]§! and respond accordingly."
@@ -74,8 +74,8 @@
   situation_operation.2900.name: "Increase Crime: Complete"
   situation_operation.2900.desc: "Our operation to corrupt §Y[operation_target.GetName]§! has reached its end, and the operation report has arrived."
   situation_operation.2900.option.fail: "The operation was a complete failure!"
-  situation_operation.2900.option.leader: "Keep the planet's governor in our [root.owner.GetSpeciesHandNamePlural]."
-  situation_operation.2900.option.rulers: "Have the planet's ruling class profit from this."
+  situation_operation.2900.option.normal_leader: "Keep the planet's governor in our [root.owner.GetSpeciesHandNamePlural]."
+  situation_operation.2900.option.normal_rulers: "Have the planet's ruling class profit from this."
   situation_operation.2900.option.normal_underworld: "Institute a new crime lord."
   situation_operation.2900.option.normal_police: "Degrade the efficiency of the planet's police force."
   situation_operation.2900.option.gestalt_underworld_supplies: "Send the deviants supplies."

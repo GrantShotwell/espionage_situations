@@ -1,0 +1,7 @@
+
+espsit_operation_failed = {
+	OR = {
+		NOT = { exists = event_target:espionage_situation }
+		event_target:espionage_situation = { situation_progress > $PROGRESS|80$ }
+	}
+}
