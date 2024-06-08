@@ -4,3 +4,8 @@
   operation_steal_resources_on_success: "$IF_SUCCESSFUL|E$\nGain basic and advanced resources based on the planet's production."
   operation_steal_resources_too_recent: "$TRIGGER_FAIL$ §RWe must wait until at least §Y[Root.recently_stole_resources]§! before we make another attempt on their resource facilities.§!"
   mod_hostile_operation_steal_resources_difficulty_add: "Defense Against Hostile Operations ($operation_steal_resources$)"
+  operation_increase_crime: "Increase Crime"
+  operation_increase_crime_desc: "Our operatives will identify weak-points in their supervisory agencies, giving us an opportunity to expand the criminal underworld on a planet."
+  operation_increase_crime_on_success: "$IF_SUCCESSFUL|E$\nAdd £crime£ §YCrime/Deviancy§! modifiers to a planet of our choosing."
+  operation_increase_crime_too_recent: "$TRIGGER_FAIL$ §RWe must wait until at least §Y[Root.recently_increased_crime]§! before we can infiltrate their supervisory agencies.§!"
+  mod_hostile_operation_increase_crime_difficulty_add: "Defense Against Hostile Operations ($operation_increase_crime$)"

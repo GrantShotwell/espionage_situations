@@ -2,14 +2,15 @@
   ### Events ###
   ## Steal Resources: Stage 1 ##
   situation_operation.1100.name: "Steal Resources: Infiltration"
-  situation_operation.1100.desc: "Operatives will begin the process of creating false routes and depots on the planet of our choice."
+  situation_operation.1100.desc: "Operatives will begin the process of creating false routes and depots on the planet of our choice. At the moment, we remain hidden.\n\nThe planet's §Ydifficulty§! will determine how quickly we need to finish the operation once the next stage of the operation begins."
+  situation_operation.1100.option.nothing: "(no valid planets)"
   situation_operation.1100.option.easy: "§G(easy)§! [event_target:easy.GetName]  £economy£[event_target:easy.espsit_steal_resources_score]"
   situation_operation.1100.option.norm: "§Y(medium)§! [event_target:norm.GetName]  £economy£[event_target:norm.espsit_steal_resources_score]"
   situation_operation.1100.option.hard: "§R(hard)§! [event_target:hard.GetName]  £economy£[event_target:hard.espsit_steal_resources_score]"
 
   ## Steal Resources, Stage 2 ##
   situation_operation.1200.name: "Steal Resources: Siphoning"
-  situation_operation.1200.desc: "§Y[From.GetName]§! will no doubt be aware of our nefarious activity on §Y[operation_target.GetName]§!, although unable to pin down our operations at the moment. At this point, our operation's success and the strength of their response will determine our success."
+  situation_operation.1200.desc: "§Y[From.GetName]§! will no doubt be aware of our nefarious activity on §Y[operation_target.GetName]§!, although unable to pin down our operations at the moment. At this point, our operation's speed and the strength of their response will determine our success."
 
   ## Stead Resources, Stage 2: Defender Window ##
   situation_operation.1201.name: "Misappropriated Resources"
@@ -42,6 +43,57 @@
   situation_operation.1902.name: "Misappropriated Resources: Criminals"
   situation_operation.1902.desc: "After much effort, we have concluded that the large-scale theft on §Y[root.GetName]§! was undergone by a local criminal syndicate. The suspects have been apprehended. Some say these criminals are the scapegoats for another, larger organization. While it is possible, we don't have the evidence for it."
   situation_operation.1902.desc.gestalt: "After much effort, we have concluded that the large-scale theft on §Y[root.GetName]§! was conducted by local deviant drones attempting to create a larger resistance. The deviant group has been dealt with."
+
+  ## Increase Crime, Stage 1 ##
+  situation_operation.2100.name: "Increase Crime: Infiltration"
+  situation_operation.2100.desc: "Operatives will narrow their investigation to a planet of our choice. At the moment, we remain hidden."
+  situation_operation.2100.option.nothing: "(no valid targets)"
+  situation_operation.2100.option.easy: "§G(easy)§! [event_target:easy.GetName]  £economy£[event_target:easy.espsit_steal_resources_score]"
+  situation_operation.2100.option.norm: "§Y(medium)§! [event_target:norm.GetName]  £economy£[event_target:norm.espsit_steal_resources_score]"
+  situation_operation.2100.option.hard: "§R(hard)§! [event_target:hard.GetName]  £economy£[event_target:hard.espsit_steal_resources_score]"
+
+  ## Increase Crime, Stage 2 ##
+  situation_operation.2200.name: "Increase Crime: Probing"
+  situation_operation.2200.desc: "More intelligence about our target planet, §Y[event_target:operation_target.GetName]§!, has arrived. The effectiveness of our approach is dependent on their government, and the evolving state of the planet. Once we have decided how to take advantage of their supervisory systems, we will begin preparing for the final stage."
+  situation_operation.2200.option.nothing: "(no valid targets)"
+  situation_operation.2200.option.leader: "Target the planet's §Yleaders§!."
+  situation_operation.2200.option.normal_underworld: "Strengthen the existing §Ycrime§! population."
+  situation_operation.2200.option.normal_police: "Weaken the planet's §Ypolice§! force."
+  situation_operation.2200.option.gestalt_separate: "Separate §Ydrones§! from the gestalt consciousness."
+  situation_operation.2200.option.gestalt_underworld: "Strengthen the existing §Ydeviancy§! population."
+
+  ## Increase Crime, Stage 3 ##
+  situation_operation.2300.name: "Increase Crime: Corruption"
+  situation_operation.2300.desc.leader: "Our preparations are complete, and we are ready to act through the planet's §Yrulers§! and §Ygoverners§!. As we begin to target the ruling class of §Y[From.GetName]§! on §Y[event_target:operation_target.GetName]§!, they will learn of nefarious activity and be able to respond."
+  situation_operation.2300.desc.normal_underworld: "Our preparations are complete, and we are ready to begin strengthening and emboldening the planet's §Ycriminal population§!. Through targeted propaganda and misinformation, we can encourage susceptible individuals to strengthen certain criminal organizations we have identified. As these organizations begin to grow more powerful, §Y[From.GetName]§! will begin to notice the problem and be able to respond on §Y[event_target:operation_target.GetName]§!."
+  situation_operation.2300.desc.normal_police: "Our preparations are complete, and we are ready to weaken the §Ypolice§! and criminal justice system on §Y[event_target:operation_target.GetName]§!. Multiple potential opportunities for corruption and degradation have been identified. As these issues become more apparent, §Y[From.GetName]§! will begin their response."
+  situation_operation.2300.desc.gestalt_separate: "Our preparations are complete, and the process of detaching §Ydrones§! from their hive-mind can begin. The process is not simple, as success in our operation requires deviants to organize. There is no doubt §Y[From.GetName]§! will notice this activity on §Y[event_target:operation_target.GetName]§! and respond accordingly."
+  situation_operation.2300.desc.gestalt_underworld: "Our preparations are complete, and areas with the potential to strengthen §Ydeviancy§! on §Y[event_target:operation_target.GetName]§! have been identified. Once we begin the process of strengthening the underworld, §Y[From.GetName]§! will surely notice and respond."
+
+  ## Increase Crime, Results Stage ##
+  situation_operation.2900.name: "Increase Crime: Complete"
+  situation_operation.2900.desc: "Our operation to corrupt §Y[operation_target.GetName]§! has reached its end, and the operation report has arrived."
+  situation_operation.2900.option.fail: "The operation was a complete failure!"
+  situation_operation.2900.option.leader: "Keep the planet's governor in our [root.owner.GetSpeciesHandNamePlural]."
+  situation_operation.2900.option.rulers: "Have the planet's ruling class profit from this."
+  situation_operation.2900.option.normal_underworld: "Institute a new crime lord."
+  situation_operation.2900.option.normal_police: "Degrade the efficiency of the planet's police force."
+  situation_operation.2900.option.gestalt_underworld_supplies: "Send the deviants supplies."
+  situation_operation.2900.option.gestalt_underworld_weapons: "Send the deviants weapons."
+  situation_operation.2900.option.gestalt_separate: "Release the drones!"
+
+  ## Increase Crime, Results Stage: Defender Window (discovered) ##
+  situation_operation.2901.name: "Criminal Uprising: Infiltration"
+  situation_operation.2901.desc: "After much effort on §Y[root.GetName]§!, we have tracked down the reason for the planet's increased corruption. Operations by §Y[event_target:espionage_aggressor.GetName]§! have attempted to undermine our supervisory systems, and has proven they wish to undermine our authority."
+
+  ## Increase Crime, Results Stage: Defender Window (undiscovered) ##
+  situation_operation.2902.name: "Criminal Uprising: Failings"
+  situation_operation.2902.desc: "After much effort on §Y[root.GetName]§!, we have concluded that the planet's steadily increased corruption was due to fundamental failings in our systems. While outside interference was a concern, we have not found sufficient evidence for this. Either way, we need to decide how to continue."
+  situation_operation.2902.option.nothing: "It's nothing of our concern."
+  situation_operation.2902.option.normal_crackdown: "These criminals will not run free!"
+  situation_operation.2902.option.normal_fired: "Fire those responsible for this!"
+  situation_operation.2902.option.gestalt_crackdown: "Deviancy detected. Seek and destroy."
+  situation_operation.2902.option.gestalt_soldiers: "Mobilize a counter-strike immediately."
 
   ### Situations ###
   ## Common ##

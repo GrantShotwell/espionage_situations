@@ -3,6 +3,10 @@ espsit_operation_resources_events = {
 	# TODO
 }
 
+espsit_operation_crime_events = {
+	# TODO
+}
+
 # Sets 'resources_xxx' variables to a scope.
 # $TARGET|this$ The scope to set variables to.
 # $SCOPE|this$ The scope to calculate resources from (ie. planet, country).

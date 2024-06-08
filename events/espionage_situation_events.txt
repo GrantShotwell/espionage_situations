@@ -16,7 +16,7 @@ espionage_operation_event = {
 	espionage_operation = yes
 
 	option = {
-		name = UNFORTUNATE
+		name = situation_operation.1100.option.nothing
 		trigger = {
 			NOT = { exists = event_target:easy }
 			NOT = { exists = event_target:norm }
@@ -716,5 +716,129 @@ planet_event = {
 			modifier = crime_boss_arrested
 			months = @StealResourcesAmountMonths
 		}
+	}
+}
+
+## Increase Crime, Stage 1 ##
+espionage_operation_event = {
+	id = situation_operation.2100
+	title = situation_operation.2100.name
+	desc = situation_operation.2100.desc
+	picture = GFX_evt_underground_city
+	show_sound = event_default
+	espionage_operation = yes
+
+	option = {
+		name = situation_operation.2100.option.nothing
+		trigger = {
+			NOT = { exists = event_target:easy }
+			NOT = { exists = event_target:norm }
+			NOT = { exists = event_target:hard }
+		}
+		destroy_espionage_operation = this
+	}
+
+	option = {
+		name = situation_operation.2100.option.easy
+		trigger = { exists = event_target:easy }
+		hidden_effect = {
+			event_target:easy = { save_event_target_as = operation_target }
+			set_espionage_operation_flag = difficulty_easy
+		}
+	}
+
+	option = {
+		name = situation_operation.2100.option.norm
+		trigger = { exists = event_target:norm }
+		hidden_effect = {
+			event_target:norm = { save_event_target_as = operation_target }
+			set_espionage_operation_flag = difficulty_norm
+		}
+	}
+
+	option = {
+		name = situation_operation.2100.option.hard
+		trigger = { exists = event_target:hard }
+		hidden_effect = {
+			event_target:hard = { save_event_target_as = operation_target }
+			set_espionage_operation_flag = difficulty_hard
+		}
+	}
+
+	immediate = {
+		# Stop operations rolls until option is picked.
+		set_espionage_operation_progress_locked = yes
+		# Select planets to give as options to the player.
+		from = {
+			random_planet_within_border = {
+				limit = {
+					is_owned_by = from
+					is_capital = no
+					num_pops <= 25
+				}
+				# Save as event target for option.
+				save_event_target_as = easy
+				# Set the planet's score for display.
+				set_variable = {
+					which = espsit_increase_crime_score
+					value = trigger:planet_crime
+				}
+			}
+			random_planet_within_border = {
+				# Select a random medium-difficulty planet.
+				limit = {
+					is_owned_by = from
+					is_capital = no
+					OR = {
+						NOT = { exists = event_target:easy }
+						NOT = { is_planet = event_target:easy }
+					}
+					num_pops > 25
+					num_pops < 75
+				}
+				# Save as event target for option.
+				save_event_target_as = norm
+				# Set the planet's score for display.
+				set_variable = {
+					which = espsit_increase_crime_score
+					value = trigger:planet_crime
+				}
+			}
+			random_planet_within_border = {
+				limit = {
+					is_owned_by = from
+					OR = {
+						NOT = { exists = event_target:easy }
+						NOT = { is_planet = event_target:easy }
+					}
+					OR = {
+						NOT = { exists = event_target:norm }
+						NOT = { is_planet = event_target:norm }
+					}
+					OR = {
+						num_pops >= 75
+						is_capital = yes
+					}
+				}
+				# Save as event target for option.
+				save_event_target_as = hard
+				# Set the planet's score for display.
+				set_variable = {
+					which = espsit_increase_crime_score
+					value = trigger:planet_crime
+				}
+			}
+		}
+	}
+
+	after = {
+		event_target:operation_target = {
+			# Set flags on the target planet.
+			hidden_effect = {
+				set_planet_flag = operation_target@root
+			}
+		}
+		# Start operation rolls.
+		set_espionage_operation_progress_locked = no
 	}
 }

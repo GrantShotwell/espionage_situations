@@ -96,3 +96,78 @@ operation_steal_resources = {
 		#
 	}
 }
+
+## Increase Crime (events 2000) ##
+operation_increase_crime = {
+	target = none
+	categories = { op_cat_sabotage op_cat_government }
+	picture = GFX_evt_black_market
+	desc = operation_increase_crime_desc
+	stages = 3
+	spy_power_cost = 50
+
+	resources = {
+		category = operations
+		cost = {
+			influence = 150
+		}
+		upkeep = {
+			influence = 1.0
+			energy = 10
+		}
+	}
+
+	potential = {
+		target = { is_primitive = no }
+	}
+
+	allow = {
+		# Only allow one operation at a time.
+		custom_tooltip = {
+			fail_text = operation_one_at_a_time
+			is_running_espionage_operation = no
+		}
+		# Disallow if cooldown for this operation is active.
+		custom_tooltip = {
+			fail_text = operation_increase_crime_too_recent
+			NOT = { has_spynetwork_flag = recently_increased_crime }
+		}
+	}
+
+	on_create = {
+		#
+	}
+
+	on_roll_failed = {
+		# Add score from rolls, and fire random events.
+		standard_espionage_operation_on_roll_failed = { RANDOM_EVENTS = espsit_operation_crime_events }
+	}
+
+	# Stage 1: Infiltrate the planet.
+	stage = {
+		difficulty = @diff_t5
+		icon = GFX_espionage_chapter_icon_target
+		event = situation_operation.2100
+	}
+
+	# Stage 2: Decide how to increase crime.
+	stage = {
+		difficulty = @diff_t5
+		icon = GFX_espionage_chapter_icon_target
+		event = situation_operation.2200
+	}
+
+	# Stage 3: State the situation on enemy.
+	stage = {
+		difficulty = @diff_t5
+		icon = GFX_espionage_chapter_icon_target
+		event = situation_operation.2300
+	}
+
+	# Result Stage
+	stage = {
+		difficulty = @diff_t5
+		icon = GFX_espionage_chapter_icon_target
+		event = situation_operation.2900
+	}
+}
