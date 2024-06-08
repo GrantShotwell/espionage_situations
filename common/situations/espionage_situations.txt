@@ -35,12 +35,12 @@ situation_espionage_resources = {
 	}
 
 	on_progress_complete = {
-		# Show event window for defender to punish attacker.
+		# TODO: Show event window for defender.
 		hidden_effect = {
 			if = {
 				limit = { exists = event_target:espionage_operation }
 				event_target:espionage_operation.owner = {
-					# TODO: Inform attack of failure immediately.
+					# TODO: Inform attacker of failure immediately.
 				}
 				destroy_espionage_operation = event_target:espionage_operation
 			}
@@ -50,15 +50,7 @@ situation_espionage_resources = {
 	}
 
 	on_abort = {
-		target = {
-			if = {
-				limit = { exists = event_target:espionage_operation }
-				event_target:espionage_operation = {
-					# TODO: Show an event window for attacker?
-					destroy_espionage_operation = this
-				}
-			}
-		}
+		#
 	}
 
 	abort_trigger = {

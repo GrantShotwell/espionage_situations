@@ -1,14 +1,17 @@
 ﻿l_english:
   ### Events ###
+  ## Steal Resources: Stage 1 ##
   situation_operation.1100.name: "Steal Resources: Infiltration"
   situation_operation.1100.desc: "Operatives will begin the process of creating false routes and depots on the planet of our choice."
   situation_operation.1100.option.easy: "§G(easy)§! [event_target:easy.GetName]  £economy£[event_target:easy.espsit_steal_resources_score]"
   situation_operation.1100.option.norm: "§Y(medium)§! [event_target:norm.GetName]  £economy£[event_target:norm.espsit_steal_resources_score]"
   situation_operation.1100.option.hard: "§R(hard)§! [event_target:hard.GetName]  £economy£[event_target:hard.espsit_steal_resources_score]"
 
+  ## Steal Resources, Stage 2 ##
   situation_operation.1200.name: "Steal Resources: Siphoning"
   situation_operation.1200.desc: "§Y[From.GetName]§! will no doubt be aware of our nefarious activity on §Y[operation_target.GetName]§!, although unable to pin down our operations at the moment. At this point, our operation's success and the strength of their response will determine our success."
 
+  ## Stead Resources, Stage 2: Defender Window ##
   situation_operation.1201.name: "Misappropriated Resources"
   situation_operation.1201.desc: "Supply lines and resource depots on §Y[root.GetName]§! are receiving less resources than expected. A shallow investigation revealed that our resource operations are under attack by a malicious entity. This could be another empire or organized crime. In any case, we need to decide how to discover the attacker and stop them."
   situation_operation.1201.option.nothing: "Do nothing, and let the population deal with it."
@@ -23,16 +26,19 @@
   situation_operation.1201.option.weak_counter: "Launch a counter investigation."
   situation_operation.1201.option.strong_counter: "Have multiple levels of government counter-investigate."
 
+  ## Steal Resources, Results Stage ##
   situation_operation.1900.name: "Steal Resources: Completed"
   situation_operation.1900.desc: "Our resource siphoning operation on §Y[operation_target.GetName]§! has completed, and the operation report has arrived."
   situation_operation.1900.option.fail: "The operation was a complete failure!"
   situation_operation.1900.option.take: "Take the resources to our stockpiles."
   situation_operation.1900.option.destroy: "Take the resources and sabotage their supply lines."
 
+  ## Steal Resources, Results Stage: Defender Window (discovered) ##
   situation_operation.1901.name: "Misappropriated Resources: Espionage"
   situation_operation.1901.desc: "After much effort on §Y[root.GetName]§!, we have intelligence that the attacker was §Y[event_target:espionage_aggressor.GetName]§!! They attempted to put their [event_target:espionage_aggressor.GetSpeciesHandNamePlural] on our resources. In addition to negatively impacting the planet's economy, this action has eroded the trust between our empires."
   situation_operation.1901.desc.xenophobe: "After much effort on §Y[root.GetName]§!, we have intelligence that the attacker was §Y[event_target:espionage_aggressor.GetName]§!! Those [event_target:espionage_aggressor.GetSpeciesNamePluralInsult] attempted to put their disgusting [event_target:espionage_aggressor.GetSpeciesHandNamePlural] on our resources. This action has the potential to negatively impact the planet's economy in a major way."
 
+  ## Steal Resources, Results Stage: Defender Window (undiscovered) ##
   situation_operation.1902.name: "Misappropriated Resources: Criminals"
   situation_operation.1902.desc: "After much effort, we have concluded that the large-scale theft on §Y[root.GetName]§! was undergone by a local criminal syndicate. The suspects have been apprehended. Some say these criminals are the scapegoats for another, larger organization. While it is possible, we don't have the evidence for it."
   situation_operation.1902.desc.gestalt: "After much effort, we have concluded that the large-scale theft on §Y[root.GetName]§! was conducted by local deviant drones attempting to create a larger resistance. The deviant group has been dealt with."
@@ -49,6 +55,7 @@
   situation_espionage_progress_high: "Situation progress: §Ghigh§!"
   situation_espionage_progress_extreme: "Situation progress: §Bvery high§!"
 
+  ## Steal Resources ##
   situation_espionage_resources: "Misappropriated Resources"
   situation_espionage_resources_type: "Misappropriated Resources"
   situation_espionage_resources_desc: "Supply lines and resource depots are receiving less resources than expected. This could be an attack from another empires, or organized crime. Our progress in this situation represents our progress to stop this. §YThis situation will end at an unknown time to us.§!"

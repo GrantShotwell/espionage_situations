@@ -368,13 +368,27 @@ espionage_operation_event = {
 		}
 	}
 
-	# option = {
-	# 	name = situation_operation.1900.option.destroy
-	# 	allow = {
-	# 		exists = event_target:espionage_situation
-	# 		event_target:espionage_situation = { situation_progress < 50 }
-	# 	}
-	# }
+	option = {
+		name = situation_operation.1900.option.destroy
+		allow = {
+			exists = event_target:espionage_situation
+			owner = {
+				has_resource = { type = influence amount >= 50 }
+				is_pacifist = no
+			}
+			has_espionage_asset_sabotage = yes
+			event_target:espionage_situation = { situation_progress < 40 }
+		}
+		destroy_espionage_asset_sabotage = yes
+		owner = {
+			add_resource = {
+				influence = -100
+			}
+		}
+		event_target:operation_target = {
+			add_planet_devastation = 20
+		}
+	}
 
 	immediate = {
 		# Save flagged planet as event scope for localization.
@@ -402,97 +416,95 @@ espionage_operation_event = {
 				TARGET = root
 			}
 		}
+		# End the defender's situation.
+		abort_situation = event_target:espionage_situation
 	}
 
 	after = {
 		# Delay repeating this operation.
-		spynetwork = {
-			set_saved_date = {
-				key = recently_stole_resources
-				days_from_present = @StealResourcesTimer
-				expires = @StealResourcesTimer
+		hidden_effect = {
+			spynetwork = {
+				set_saved_date = {
+					key = recently_stole_resources
+					days_from_present = @StealResourcesTimer
+					expires = @StealResourcesTimer
+				}
 			}
 		}
-		# If situation does not exist, assume it was completed.
-		if = {
-			limit = { exists = event_target:espionage_situation }
-			# Add resources based on situation multiplier.
-			root.owner = {
-				if = {
-					limit = {
-						root = { check_variable = { which = resources_energy value > 0 } }
-					}
-					add_resource = {
-						energy = @StealResourcesAmountMonths
-						mult = root.resources_energy
-					}
+		# Add resources based on situation multiplier.
+		root.owner = {
+			if = {
+				limit = {
+					root = { check_variable = { which = resources_energy value > 0 } }
 				}
-				if = {
-					limit = {
-						root = { check_variable = { which = resources_minerals value > 0 } }
-					}
-					add_resource = {
-						minerals = @StealResourcesAmountMonths
-						mult = root.resources_minerals
-					}
-				}
-				if = {
-					limit = {
-						root = { check_variable = { which = resources_food value > 0 } }
-					}
-					add_resource = {
-						food = @StealResourcesAmountMonths
-						mult = root.resources_food
-					}
-				}
-				if = {
-					limit = {
-						root = { check_variable = { which = resources_consumer_goods value > 0 } }
-					}
-					add_resource = {
-						consumer_goods = @StealResourcesAmountMonths
-						mult = root.resources_consumer_goods
-					}
-				}
-				if = {
-					limit = {
-						root = { check_variable = { which = resources_alloys value > 0 } }
-					}
-					add_resource = {
-						alloys = @StealResourcesAmountMonths
-						mult = root.resources_alloys
-					}
-				}
-				if = {
-					limit = {
-						root = { check_variable = { which = resources_volatile_motes value > 0 } }
-					}
-					add_resource = {
-						volatile_motes = @StealResourcesAmountMonths
-						mult = root.resources_volatile_motes
-					}
-				}
-				if = {
-					limit = {
-						root = { check_variable = { which = resources_exotic_gases value > 0 } }
-					}
-					add_resource = {
-						exotic_gases = @StealResourcesAmountMonths
-						mult = root.resources_exotic_gases
-					}
-				}
-				if = {
-					limit = {
-						root = { check_variable = { which = resources_rare_crystals value > 0 } }
-					}
-					add_resource = {
-						rare_crystals = @StealResourcesAmountMonths
-						mult = root.resources_rare_crystals
-					}
+				add_resource = {
+					energy = @StealResourcesAmountMonths
+					mult = root.resources_energy
 				}
 			}
-			# End the defender's situation.
-			abort_situation = event_target:espionage_situation
+			if = {
+				limit = {
+					root = { check_variable = { which = resources_minerals value > 0 } }
+				}
+				add_resource = {
+					minerals = @StealResourcesAmountMonths
+					mult = root.resources_minerals
+				}
+			}
+			if = {
+				limit = {
+					root = { check_variable = { which = resources_food value > 0 } }
+				}
+				add_resource = {
+					food = @StealResourcesAmountMonths
+					mult = root.resources_food
+				}
+			}
+			if = {
+				limit = {
+					root = { check_variable = { which = resources_consumer_goods value > 0 } }
+				}
+				add_resource = {
+					consumer_goods = @StealResourcesAmountMonths
+					mult = root.resources_consumer_goods
+				}
+			}
+			if = {
+				limit = {
+					root = { check_variable = { which = resources_alloys value > 0 } }
+				}
+				add_resource = {
+					alloys = @StealResourcesAmountMonths
+					mult = root.resources_alloys
+				}
+			}
+			if = {
+				limit = {
+					root = { check_variable = { which = resources_volatile_motes value > 0 } }
+				}
+				add_resource = {
+					volatile_motes = @StealResourcesAmountMonths
+					mult = root.resources_volatile_motes
+				}
+			}
+			if = {
+				limit = {
+					root = { check_variable = { which = resources_exotic_gases value > 0 } }
+				}
+				add_resource = {
+					exotic_gases = @StealResourcesAmountMonths
+					mult = root.resources_exotic_gases
+				}
+			}
+			if = {
+				limit = {
+					root = { check_variable = { which = resources_rare_crystals value > 0 } }
+				}
+				add_resource = {
+					rare_crystals = @StealResourcesAmountMonths
+					mult = root.resources_rare_crystals
+				}
+			}
 		}
 		# Randomly select defender's outcome.
 		if = {
