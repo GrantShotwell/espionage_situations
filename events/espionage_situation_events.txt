@@ -1102,10 +1102,21 @@ espionage_operation_event = {
 			has_espionage_operation_flag = crime_option_normal_leader
 		}
 		allow = {
+			# Leader needs to exists.
 			exists = event_target:operation_target.leader
+			# Leader cannot have maximum corrupt trait already.
+			NOT = { event_target:operation_target.leader = { has_trait = leader_trait_corrupt_2 } }
 		}
+		# Upgrade leader's corrupt trait.
 		event_target:operation_target.leader = {
-			add_experience = -1 # TODO: Add corrupt trait.
+			if = {
+				limit = { has_trait = leader_trait_corrupt }
+				remove_trait = leader_trait_corrupt
+				add_trait = leader_trait_corrupt_2
+			}
+			else = {
+				add_trait = leader_trait_corrupt
+			}
 		}
 		if = {
 			limit = { check_variable = { which = root.situation_progress value < 40 } }
