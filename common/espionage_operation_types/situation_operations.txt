@@ -103,7 +103,7 @@ operation_increase_crime = {
 	categories = { op_cat_sabotage op_cat_government }
 	picture = GFX_evt_black_market
 	desc = operation_increase_crime_desc
-	stages = 3
+	stages = 4
 	spy_power_cost = 50
 
 	resources = {
@@ -153,21 +153,21 @@ operation_increase_crime = {
 	# Stage 2: Decide how to increase crime.
 	stage = {
 		difficulty = @diff_t5
-		icon = GFX_espionage_chapter_icon_target
+		icon = GFX_espionage_chapter_icon_surveillance
 		event = situation_operation.2200
 	}
 
 	# Stage 3: State the situation on enemy.
 	stage = {
 		difficulty = @diff_t5
-		icon = GFX_espionage_chapter_icon_target
+		icon = GFX_espionage_chapter_icon_motion
 		event = situation_operation.2300
 	}
 
 	# Result Stage
 	stage = {
 		difficulty = @diff_t5
-		icon = GFX_espionage_chapter_icon_target
+		icon = GFX_espionage_chapter_icon_success
 		event = situation_operation.2900
 	}
 }

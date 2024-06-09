@@ -103,7 +103,7 @@ espsit_degraded_police = {
 	icon = "gfx/interface/icons/planet_modifiers/pm_crime.dds"
 	icon_frame = 3
 	planet_stability_add = -10
-	planet_enforcers_energy_produces_add = -1
+	job_enforcer_add = -1
 	planet_crime_mult = 0.20
 }
 

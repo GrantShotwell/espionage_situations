@@ -204,7 +204,7 @@ espionage_operation_event = {
 	}
 }
 
-## Steal Resources, Stage 2: Defender Window ##
+## Steal Resources, Stage 2: Defender's Window ##
 planet_event = {
 	id = situation_operation.1201
 	title = situation_operation.1201.name
@@ -859,6 +859,9 @@ espionage_operation_event = {
 	is_triggered_only = yes
 
 	immediate = {
+		# Stop operations rolls until option is picked.
+		set_espionage_operation_progress_locked = yes
+		# Set 'operation_target' event target.
 		espsit_set_operation_target = yes
 	}
 
@@ -893,7 +896,8 @@ espionage_operation_event = {
 	}
 
 	after = {
-		#
+		# Start operation rolls.
+		set_espionage_operation_progress_locked = no
 	}
 }
 
@@ -928,6 +932,9 @@ espionage_operation_event = {
 	is_triggered_only = yes
 
 	immediate = {
+		# Stop operations rolls until option is picked.
+		set_espionage_operation_progress_locked = yes
+		# Set 'operation_target' event target.
 		espsit_set_operation_target = yes
 	}
 
@@ -936,28 +943,62 @@ espionage_operation_event = {
 	}
 
 	after = {
-		# TODO: Start situation for defender.
+		# Start the situation on the enemy planet.
+		event_target:operation_target.owner = {
+			start_situation = {
+				type = situation_espionage_crime
+				target = event_target:operation_target
+				effect = {
+					# Set flags for going between the situation and operation.
+					set_situation_flag = espionage_situation@root
+					root = { set_espionage_operation_flag = espionage_attacker@prev }
+					# Set the situation's difficulty.
+					if = {
+						limit = { root = { has_espionage_operation_flag = difficulty_easy } }
+						set_situation_flag = difficulty_easy
+					}
+					else_if = {
+						limit = { root = { has_espionage_operation_flag = difficulty_norm } }
+						set_situation_flag = difficulty_norm
+					}
+					else_if = {
+						limit = { root = { has_espionage_operation_flag = difficulty_hard } }
+						set_situation_flag = difficulty_hard
+					}
+					# Open the situation window for the defender.
+					save_event_target_as = espionage_situation
+					# event_target:operation_target = {
+					# 	planet_event = { id = situation_operation.2301 }
+					# }
+				}
+			}
+		}
+		# Start operation rolls.
+		set_espionage_operation_progress_locked = no
 	}
 }
 
 ## Increase Crime, Results Stage ##
 espionage_operation_event = {
 	id = situation_operation.2900
-	title = situation_operation.2900.desc
+	title = situation_operation.2900.name
+	desc = situation_operation.2900.desc
 	picture = GFX_evt_black_market
 	show_sound = event_espionage_concluded
-	espionage_operation = yes
 	is_triggered_only = yes
 
 	immediate = {
+		# Stop operations rolls until option is picked.
+		set_espionage_operation_progress_locked = yes
+		# Set 'operation_target' event target.
 		espsit_set_operation_target = yes
+		# Set 'espionage_situation' event target.
+		espsit_set_espionage_situation = yes
+		# Check situation progress.
 		if = {
 			limit = { espsit_operation_failed = { PROGRESS = 80 } }
 			set_espionage_operation_flag = operation_failed
-			set_variable = {
-				which = modifier_duration
-				value = 0
-			}
+			set_variable = { which = modifier_duration value = 0 }
 		}
 		else = {
 			# Set variables from situation progress.
@@ -966,11 +1007,7 @@ espionage_operation_event = {
 				value = value:espionage_situation_progress
 			}
 			set_variable = {
-				which = modifier_duration
-				value = @IncreaseCrimeDurationYears
-			}
-			multiply_variable = {
-				which = modifier_duration
+				which = situation_multiplier
 				value = value:espionage_situation_multiplier
 			}
 			# End defender's situation.
@@ -1000,7 +1037,8 @@ espionage_operation_event = {
 			event_target:operation_target = {
 				add_modifier = {
 					modifier = crime_wave
-					years = root.modifier_duration
+					years = @IncreaseCrimeDurationYears
+					time_multiplier = root.situation_multiplier
 				}
 			}
 		}
@@ -1015,13 +1053,15 @@ espionage_operation_event = {
 		event_target:operation_target = {
 			add_modifier = {
 				modifier = bribed_officials
-				years = root.modifier_duration
+				years = @IncreaseCrimeDurationYears
+				time_multiplier = root.situation_multiplier
 			}
 			if = {
 				limit = { check_variable = { which = root.situation_progress value < 40 } }
 				add_modifier = {
 					modifier = crime_wave
-					years = root.modifier_duration
+					years = @IncreaseCrimeDurationYears
+					time_multiplier = root.situation_multiplier
 				}
 			}
 		}
@@ -1036,7 +1076,8 @@ espionage_operation_event = {
 		event_target:operation_target = {
 			add_modifier = {
 				modifier = crime_wave
-				years = root.modifier_duration
+				years = @IncreaseCrimeDurationYears
+				time_multiplier = root.situation_multiplier
 			}
 			if = {
 				limit = { check_variable = { which = root.situation_progress value < 40 } }
@@ -1044,19 +1085,22 @@ espionage_operation_event = {
 					1 = {
 						add_modifier = {
 							modifier = criminal_underworld
-							years = root.modifier_duration
+							years = @IncreaseCrimeDurationYears
+							time_multiplier = root.situation_multiplier
 						}
 					}
 					1 = {
 						add_modifier = {
 							modifier = cartel_war
-							years = root.modifier_duration
+							years = @IncreaseCrimeDurationYears
+							time_multiplier = root.situation_multiplier
 						}
 					}
 					1 = {
 						add_modifier = {
 							modifier = substance_abuse
-							years = root.modifier_duration
+							years = @IncreaseCrimeDurationYears
+							time_multiplier = root.situation_multiplier
 						}
 					}
 				}
@@ -1075,20 +1119,23 @@ espionage_operation_event = {
 				limit = { check_variable = { which = root.situation_progress value < 40 } }
 				add_modifier = {
 					modifier = crime_wave
-					years = root.modifier_duration
+					years = @IncreaseCrimeDurationYears
+					time_multiplier = root.situation_multiplier
 				}
 			}
 			random_list = {
 				1 = {
 					add_modifier = {
 						modifier = espsit_degraded_police
-						years = root.modifier_duration
+						years = @IncreaseCrimeDurationYears
+						time_multiplier = root.situation_multiplier
 					}
 				}
 				1 = {
 					add_modifier = {
 						modifier = espsit_degraded_justice
-						years = root.modifier_duration
+						years = @IncreaseCrimeDurationYears
+						time_multiplier = root.situation_multiplier
 					}
 				}
 			}
@@ -1112,7 +1159,8 @@ espionage_operation_event = {
 			event_target:operation_target = {
 				add_modifier = {
 					modifier = espsit_supplied_corruption
-					years = root.modifier_duration
+					years = @IncreaseCrimeDurationYears
+					time_multiplier = root.situation_multiplier
 				}
 			}
 		}
@@ -1125,7 +1173,8 @@ espionage_operation_event = {
 			event_target:operation_target = {
 				add_modifier = {
 					modifier = espsit_supplied_deviancy
-					years = root.modifier_duration
+					years = @IncreaseCrimeDurationYears
+					time_multiplier = root.situation_multiplier
 				}
 			}
 		}
@@ -1148,7 +1197,8 @@ espionage_operation_event = {
 			event_target:operation_target = {
 				add_modifier = {
 					modifier = espsit_supplied_corruption
-					years = root.modifier_duration
+					years = @IncreaseCrimeDurationYears
+					time_multiplier = root.situation_multiplier
 				}
 			}
 		}
@@ -1162,7 +1212,8 @@ espionage_operation_event = {
 			event_target:operation_target = {
 				add_modifier = {
 					modifier = espsit_supplied_deviancy
-					years = root.modifier_duration
+					years = @IncreaseCrimeDurationYears
+					time_multiplier = root.situation_multiplier
 				}
 			}
 		}
@@ -1179,7 +1230,8 @@ espionage_operation_event = {
 			event_target:operation_target = {
 				add_modifier = {
 					modifier = drone_corruption
-					years = root.modifier_duration
+					years = @IncreaseCrimeDurationYears
+					time_multiplier = root.situation_multiplier
 				}
 			}
 		}
@@ -1187,7 +1239,8 @@ espionage_operation_event = {
 			event_target:operation_target = {
 				add_modifier = {
 					modifier = drone_deviancy
-					years = root.modifier_duration
+					years = @IncreaseCrimeDurationYears
+					time_multiplier = root.situation_multiplier
 				}
 			}
 		}
@@ -1204,7 +1257,35 @@ espionage_operation_event = {
 				}
 			}
 		}
-		# TODO: Destroy random asset.
+		# Random chance to destroy asset.
+		random_list = {
+			# Keep all assets.
+			100 = {
+				modifier = {
+					factor = 0.1
+					has_espionage_operation_flag = difficulty_hard
+				}
+			}
+			# Destroy an asset.
+			0 = {
+				modifier = {
+					add = 100
+					has_espionage_asset_sabotage = yes
+				}
+				modifier = {
+					add = 100
+					has_espionage_asset_government = yes
+				}
+				modifier = {
+					factor = 0.5
+					has_espionage_operation_flag = difficulty_easy
+				}
+				locked_random_list = {
+					1 = { destroy_espionage_asset_sabotage = yes }
+					1 = { destroy_espionage_asset_government = yes }
+				}
+			}
+		}
 		# TODO: Show defender window.
 		# End this operation.
 		destroy_espionage_operation = this

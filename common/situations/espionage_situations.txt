@@ -472,3 +472,116 @@ situation_espionage_resources = {
 	}
 
 }
+
+# Increase Crime (target)
+situation_espionage_crime = {
+	picture = GFX_evt_bribery
+	category = positive
+	complete_icon = GFX_situation_outcome_positive
+	complete_icon_frame = GFX_situation_outcome_frame_green
+
+	on_start = {
+		every_country = {
+			random_espionage_operation = {
+				limit = { has_espionage_operation_flag = espionage_attacker@root }
+				save_event_target_as = espionage_operation
+			}
+		}
+		target = {
+			save_event_target_as = operation_target
+		}
+	}
+
+	on_monthly = {
+		# TODO: Random events?
+	}
+
+	on_progress_complete = {
+		# TODO: Show event window for defender.
+		hidden_effect = {
+			if = {
+				limit = { exists = event_target:espionage_operation }
+				event_target:espionage_operation.owner = {
+					# TODO: Inform attacker of failure immediately.
+				}
+				destroy_espionage_operation = event_target:espionage_operation
+			}
+		}
+		# End this situation.
+		destroy_situation = this
+	}
+
+	on_abort = {
+		#
+	}
+
+	abort_trigger = {
+		OR = {
+			NOT = {
+				exists = target.owner
+			}
+			target.owner = {
+				NOT = {
+					is_same_value = root.owner
+				}
+			}
+		}
+	}
+
+	stages = {
+		stage_1 = {
+			icon = GFX_situation_stage_1
+			icon_background = GFX_situation_stage_frame_red
+			custom_tooltip = situation_espionage_crime_1
+			end = 20
+		}
+		stage_2 = {
+			icon = GFX_situation_stage_2
+			icon_background = GFX_situation_stage_frame_blue
+			custom_tooltip = situation_espionage_crime_2
+			end = 40
+		}
+		stage_3 = {
+			icon = GFX_situation_stage_3
+			icon_background = GFX_situation_stage_frame_blue
+			custom_tooltip = situation_espionage_crime_3
+			end = 60
+		}
+		stage_4 = {
+			icon = GFX_situation_stage_4
+			icon_background = GFX_situation_stage_frame_blue
+			custom_tooltip = situation_espionage_crime_4
+			end = 80
+		}
+		stage_5 = {
+			icon = GFX_situation_stage_5
+			icon_background = GFX_situation_stage_frame_green
+			custom_tooltip = situation_espionage_crime_5
+			end = 100
+		}
+	}
+
+	monthly_progress = {
+		base = @BaseProgress
+		modifier = {
+			desc = situation_espionage_difficulty_easy
+			has_situation_flag = difficulty_easy
+			add = @DifficultyProgressEasy
+		}
+		modifier = {
+			desc = situation_espionage_difficulty_norm
+			has_situation_flag = difficulty_norm
+			add = @DifficultyProgressNormal
+		}
+		modifier = {
+			desc = situation_espionage_difficulty_hard
+			has_situation_flag = difficulty_hard
+			add = @DifficultyProgressHard
+		}
+		modifier = {
+			desc = situation_espionage_crime_approach_nothing
+			current_situation_approach = situation_espionage_resources_approach_nothing
+			add = 0
+		}
+	}
+}

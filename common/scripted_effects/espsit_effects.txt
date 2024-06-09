@@ -8,6 +8,15 @@ espsit_set_operation_target = {
 	}
 }
 
+espsit_set_espionage_situation = {
+	from = {
+		random_situation = {
+			limit = { has_situation_flag = espionage_situation@root }
+			save_event_target_as = espionage_situation
+		}
+	}
+}
+
 espsit_operation_resources_events = {
 	# TODO
 }
