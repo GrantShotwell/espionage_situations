@@ -48,9 +48,9 @@
   situation_operation.2100.name: "Increase Crime: Infiltration"
   situation_operation.2100.desc: "Operatives will narrow their investigation to a planet of our choice. At the moment, we remain hidden."
   situation_operation.2100.option.nothing: "(no valid targets)"
-  situation_operation.2100.option.easy: "§G(easy)§! [event_target:easy.GetName]  £economy£[event_target:easy.espsit_steal_resources_score]"
-  situation_operation.2100.option.norm: "§Y(medium)§! [event_target:norm.GetName]  £economy£[event_target:norm.espsit_steal_resources_score]"
-  situation_operation.2100.option.hard: "§R(hard)§! [event_target:hard.GetName]  £economy£[event_target:hard.espsit_steal_resources_score]"
+  situation_operation.2100.option.easy: "§G(easy)§! [event_target:easy.GetName]  £crime£[event_target:easy.espsit_increase_crime_score]"
+  situation_operation.2100.option.norm: "§Y(medium)§! [event_target:norm.GetName]  £crime£[event_target:norm.espsit_increase_crime_score]"
+  situation_operation.2100.option.hard: "§R(hard)§! [event_target:hard.GetName]  £crime£[event_target:hard.espsit_increase_crime_score]"
 
   ## Increase Crime, Stage 2 ##
   situation_operation.2200.name: "Increase Crime: Probing"
@@ -70,6 +70,15 @@
   situation_operation.2300.desc.gestalt_separate: "Our preparations are complete, and the process of detaching §Ydrones§! from their hive-mind can begin. The process is not simple, as success in our operation requires deviants to organize. There is no doubt §Y[From.GetName]§! will notice this activity on §Y[event_target:operation_target.GetName]§! and respond accordingly."
   situation_operation.2300.desc.gestalt_underworld: "Our preparations are complete, and areas with the potential to strengthen §Ydeviancy§! on §Y[event_target:operation_target.GetName]§! have been identified. Once we begin the process of strengthening the underworld, §Y[From.GetName]§! will surely notice and respond."
 
+  ## Increase Crime, Stage 3: Defender Window ##
+  situation_operation.2301.name: "$situation_espionage_crime$"
+  situation_operation.2301.desc: "Corruption is brewing at an unexpected rate on §Y[root.GetName]§!. This could be an attack from another empire, but don't know for sure at the moment. In any case, we need to decide how to discover the problem's source and stop it."
+  situation_operation.2301.option.nothing: "This is nothing of our concern."
+  situation_operation.2301.option.normal_weak: "The police should investigate this."
+  situation_operation.2301.option.normal_strong: "Additional police authority and funding should help."
+  situation_operation.2301.option.gestalt_weak: "We must be one."
+  situation_operation.2301.option.gestalt_strong: "Seek and destroy."
+
   ## Increase Crime, Results Stage ##
   situation_operation.2900.name: "Increase Crime: Complete"
   situation_operation.2900.desc: "Our operation to corrupt §Y[operation_target.GetName]§! has reached its end, and the operation report has arrived."
@@ -85,6 +94,11 @@
   ## Increase Crime, Results Stage: Defender Window (discovered) ##
   situation_operation.2901.name: "Criminal Uprising: Infiltration"
   situation_operation.2901.desc: "After much effort on §Y[root.GetName]§!, we have tracked down the reason for the planet's increased corruption. Operations by §Y[event_target:espionage_aggressor.GetName]§! have attempted to undermine our supervisory systems, and has proven they wish to undermine our authority."
+  situation_operation.2901.option.nothing: "It's nothing of our concern."
+  situation_operation.2901.option.normal_crackdown: "These criminals will not run free!"
+  situation_operation.2901.option.normal_fired: "Fire those responsible for this!"
+  situation_operation.2901.option.gestalt_crackdown: "Deviancy detected. Seek and destroy."
+  situation_operation.2901.option.gestalt_soldiers: "Mobilize a counter-strike immediately."
 
   ## Increase Crime, Results Stage: Defender Window (undiscovered) ##
   situation_operation.2902.name: "Criminal Uprising: Failings"
@@ -140,7 +154,12 @@
   situation_espionage_crime_4: "Strong resistance; if the situation ends here, weak corruption will only temporarily affect the planet."
   situation_espionage_crime_5: "Powerful resistance; if the situation ends here, corruption will not affect the planet."
   situation_espionage_crime_approach_nothing: "Do Nothing"
+  situation_espionage_crime_approach_nothing_desc: "This problem does not concern us."
   situation_espionage_crime_approach_normal_weak: "Anti-Crime Campaign"
+  situation_espionage_crime_approach_normal_weak_desc: "The police force will focus on crime prevention."
   situation_espionage_crime_approach_normal_strong: "War on Crime"
+  situation_espionage_crime_approach_normal_strong_desc: "We will give the police force additional authorities to prevent crime from growing."
   situation_espionage_crime_approach_gestalt_weak: "Increase Unification"
+  situation_espionage_crime_approach_gestalt_weak_desc: "Focus our consciousness on this planet, increasing the unification of our drones."
   situation_espionage_crime_approach_gestalt_strong: "Seek and Destroy"
+  situation_espionage_crime_approach_gestalt_strong_desc: "Deviancy and corruption will not be tolerated."

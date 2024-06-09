@@ -76,6 +76,7 @@ espionage_operation_event = {
 					which = espsit_steal_resources_score
 					value = this.resources_all
 				}
+				round_variable = espsit_steal_resources_score
 			}
 			random_planet_within_border = {
 				# Select a random medium-difficulty planet.
@@ -99,6 +100,7 @@ espionage_operation_event = {
 					which = espsit_steal_resources_score
 					value = this.resources_all
 				}
+				round_variable = espsit_steal_resources_score
 			}
 			random_planet_within_border = {
 				limit = {
@@ -126,6 +128,7 @@ espionage_operation_event = {
 					which = espsit_steal_resources_score
 					value = this.resources_all
 				}
+				round_variable = espsit_steal_resources_score
 			}
 		}
 	}
@@ -787,6 +790,7 @@ espionage_operation_event = {
 					which = espsit_increase_crime_score
 					value = trigger:planet_crime
 				}
+				round_variable = espsit_increase_crime_score
 			}
 			random_planet_within_border = {
 				# Select a random medium-difficulty planet.
@@ -807,6 +811,7 @@ espionage_operation_event = {
 					which = espsit_increase_crime_score
 					value = trigger:planet_crime
 				}
+				round_variable = espsit_increase_crime_score
 			}
 			random_planet_within_border = {
 				limit = {
@@ -831,6 +836,7 @@ espionage_operation_event = {
 					which = espsit_increase_crime_score
 					value = trigger:planet_crime
 				}
+				round_variable = espsit_increase_crime_score
 			}
 		}
 	}
@@ -967,15 +973,79 @@ espionage_operation_event = {
 					}
 					# Open the situation window for the defender.
 					save_event_target_as = espionage_situation
-					# event_target:operation_target = {
-					# 	planet_event = { id = situation_operation.2301 }
-					# }
+					event_target:operation_target = {
+						planet_event = { id = situation_operation.2301 }
+					}
 				}
 			}
 		}
 		# Start operation rolls.
 		set_espionage_operation_progress_locked = no
 	}
+}
+
+## Increase Crime, Stage 3: Defender's Window ##
+planet_event = {
+	id = situation_operation.2301
+	title = situation_operation.2301.name
+	desc = situation_operation.2301.desc
+	picture = GFX_evt_bribery
+	show_sound = event_criminal_activity
+	is_triggered_only = yes
+
+	immediate = {
+		event_target:espionage_situation.target = {
+			save_event_target_as = operation_target
+		}
+	}
+
+	option = {
+		name = situation_operation.2301.option.nothing
+		event_target:espionage_situation = {
+			set_situation_approach = situation_espionage_crime_approach_nothing
+		}
+	}
+
+	option = {
+		name = situation_operation.2301.option.normal_weak
+		allow = {
+			owner = { is_gestalt = no }
+		}
+		event_target:espionage_situation = {
+			set_situation_approach = situation_espionage_crime_approach_normal_weak
+		}
+	}
+
+	option = {
+		name = situation_operation.2301.option.normal_strong
+		allow = {
+			owner = { is_gestalt = no }
+		}
+		event_target:espionage_situation = {
+			set_situation_approach = situation_espionage_crime_approach_normal_strong
+		}
+	}
+
+	option = {
+		name = situation_operation.2301.option.gestalt_weak
+		allow = {
+			owner = { is_gestalt = yes }
+		}
+		event_target:espionage_situation = {
+			set_situation_approach = situation_espionage_crime_approach_gestalt_weak
+		}
+	}
+
+	option = {
+		name = situation_operation.2301.option.gestalt_strong
+		allow = {
+			owner = { is_gestalt = yes }
+		}
+		event_target:espionage_situation = {
+			set_situation_approach = situation_espionage_crime_approach_gestalt_strong
+		}
+	}
+
 }
 
 ## Increase Crime, Results Stage ##
@@ -999,6 +1069,8 @@ espionage_operation_event = {
 			limit = { espsit_operation_failed = { PROGRESS = 80 } }
 			set_espionage_operation_flag = operation_failed
 			set_variable = { which = modifier_duration value = 0 }
+			set_variable = { which = situation_progress value = 100 }
+			set_variable = { which = situation_multiplier value = 0 }
 		}
 		else = {
 			# Set variables from situation progress.
@@ -1010,7 +1082,10 @@ espionage_operation_event = {
 				which = situation_multiplier
 				value = value:espionage_situation_multiplier
 			}
-			# End defender's situation.
+		}
+		# End defender's situation.
+		if = {
+			limit = { exists = event_target:espionage_situation }
 			abort_situation = event_target:espionage_situation
 		}
 	}
@@ -1286,9 +1361,141 @@ espionage_operation_event = {
 				}
 			}
 		}
-		# TODO: Show defender window.
+		# Randomly select defender's outcome.
+		if = {
+			limit = { exists = event_target:operation_target }
+			random_list = {
+				# Attacker stays undiscovered.
+				100 = {
+					modifier = {
+						factor = 0
+						check_variable_arithmetic = {
+							which = root.situation_progress
+							value > 80
+						}
+					}
+					event_target:operation_target = {
+						planet_event = { id = situation_operation.2902 }
+					}
+				}
+				# Defender discovers attacker.
+				0 = {
+					modifier = {
+						add = root.situation_progress
+						check_variable_arithmetic = {
+							which = root.situation_progress
+							value > 20
+						}
+					}
+					modifier = {
+						mult = @DefenderDiscoveryBias
+					}
+					root.owner = {
+						save_event_target_as = espionage_aggressor
+					}
+					event_target:operation_target = {
+						planet_event = { id = situation_operation.2901 }
+					}
+				}
+			}
+		}
 		# End this operation.
 		destroy_espionage_operation = this
+	}
+
+}
+
+## Increase Crime, Results Stage (discovered) ##
+planet_event = {
+	id = situation_operation.2901
+	title = situation_operation.2901.name
+	desc = situation_operation.2901.desc
+	picture = GFX_evt_bribery
+	show_sound = event_criminal_activity
+	is_triggered_only = yes
+
+	immediate = {
+		#
+	}
+
+	option = {
+		name = situation_operation.2901.option.nothing
+	}
+
+	option = {
+		name = situation_operation.2901.option.normal_crackdown
+		allow = { owner = { is_gestalt = no } }
+	}
+
+	option = {
+		name = situation_operation.2901.option.normal_fired
+		allow = { owner = { is_gestalt = no } }
+	}
+
+	option = {
+		name = situation_operation.2901.option.gestalt_crackdown
+		allow = { owner = { is_gestalt = yes } }
+	}
+
+	option = {
+		name = situation_operation.2901.option.gestalt_soldiers
+		allow = { owner = { is_gestalt = yes } }
+	}
+
+	after = {
+		owner = {
+			add_opinion_modifier = {
+				who = event_target:espionage_aggressor
+				modifier = opinion_exposed_major_espionage
+			}
+			add_trust = {
+				who = event_target:espionage_aggressor
+				amount = -20
+			}
+		}
+	}
+
+}
+
+## Increase Crime, Results Stage (undiscovered) ##
+planet_event = {
+	id = situation_operation.2902
+	title = situation_operation.2902.name
+	desc = situation_operation.2902.desc
+	picture = GFX_evt_black_market
+	show_sound = event_criminal_activity
+	is_triggered_only = yes
+
+	immediate = {
+		#
+	}
+
+	option = {
+		name = situation_operation.2902.option.nothing
+	}
+
+	option = {
+		name = situation_operation.2902.option.normal_crackdown
+		allow = { owner = { is_gestalt = no } }
+	}
+
+	option = {
+		name = situation_operation.2902.option.normal_fired
+		allow = { owner = { is_gestalt = no } }
+	}
+
+	option = {
+		name = situation_operation.2902.option.gestalt_crackdown
+		allow = { owner = { is_gestalt = yes } }
+	}
+
+	option = {
+		name = situation_operation.2902.option.gestalt_soldiers
+		allow = { owner = { is_gestalt = yes } }
+	}
+
+	after = {
+		#
 	}
 
 }

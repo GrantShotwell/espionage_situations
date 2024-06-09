@@ -1,14 +1,14 @@
 
 @BaseProgress = 2.0
-@DifficultyProgressEasy = -1
+@DifficultyProgressEasy = -1.2
 @DifficultyProgressNormal = 0
-@DifficultyProgressHard = 2
+@DifficultyProgressHard = 2.0
 
 @ApproachProgressWeak = 1.0
-@ApproachProgressLow = 1.5
-@ApproachProgressMedium = 2.5
-@ApproachProgressHigh = 3.0
-@ApproachProgressExtreme = 4.0
+@ApproachProgressLow = 2.0
+@ApproachProgressMedium = 3.0
+@ApproachProgressHigh = 4.0
+@ApproachProgressExtreme = 5.0
 
 # Steal Resources (target)
 situation_espionage_resources = {
@@ -199,13 +199,13 @@ situation_espionage_resources = {
 	# (basic, replace ethic) Weak Response
 	approach = {
 		name = situation_espionage_resources_approach_basic_weak
-		icon = GFX_situation_approach_this_is_fine
-		icon_background = GFX_situation_approach_bg_yellow
+		icon = GFX_situation_approach_balance_sheet
+		icon_background = GFX_situation_approach_bg_green
 		potential = {
 			target.owner = { has_espionage_situation_resources_ethic_approach = no }
 		}
 		on_select = {
-			custom_tooltip = situation_espionage_progress_weak
+			custom_tooltip = situation_espionage_progress_low
 		}
 		triggered_target_modifier = {
 			planet_jobs_produces_mult = -0.05
@@ -224,13 +224,13 @@ situation_espionage_resources = {
 	# (basic, replace ethic) Strong Response
 	approach = {
 		name = situation_espionage_resources_approach_basic_strong
-		icon = GFX_situation_approach_this_is_fine
-		icon_background = GFX_situation_approach_bg_yellow
+		icon = GFX_situation_approach_balance_sheet
+		icon_background = GFX_situation_approach_bg_red
 		potential = {
 			target.owner = { has_espionage_situation_resources_ethic_approach = no }
 		}
 		on_select = {
-			custom_tooltip = situation_espionage_progress_low
+			custom_tooltip = situation_espionage_progress_medium
 		}
 		resources = {
 			category = situations
@@ -257,7 +257,7 @@ situation_espionage_resources = {
 	approach = {
 		name = situation_espionage_resources_approach_weak_police
 		icon = GFX_situation_approach_this_is_fine
-		icon_background = GFX_situation_approach_bg_yellow
+		icon_background = GFX_situation_approach_bg_green
 		potential = {
 			target.owner = { can_espionage_situation_approach_ethic_authoritarian = yes }
 		}
@@ -282,7 +282,7 @@ situation_espionage_resources = {
 	approach = {
 		name = situation_espionage_resources_approach_strong_police
 		icon = GFX_situation_approach_this_is_fine
-		icon_background = GFX_situation_approach_bg_yellow
+		icon_background = GFX_situation_approach_bg_red
 		potential = {
 			target.owner = { can_espionage_situation_approach_ethic_authoritarian = yes }
 		}
@@ -363,8 +363,8 @@ situation_espionage_resources = {
 	# (ethic) Militarist, weak
 	approach = {
 		name = situation_espionage_resources_approach_weak_soldiers
-		icon = GFX_situation_approach_this_is_fine
-		icon_background = GFX_situation_approach_bg_yellow
+		icon = GFX_situation_approach_sword
+		icon_background = GFX_situation_approach_bg_green
 		potential = {
 			target.owner = { can_espionage_situation_approach_ethic_militarist = yes }
 		}
@@ -388,8 +388,8 @@ situation_espionage_resources = {
 	# (ethic) Militarist, strong
 	approach = {
 		name = situation_espionage_resources_approach_strong_soldiers
-		icon = GFX_situation_approach_this_is_fine
-		icon_background = GFX_situation_approach_bg_yellow
+		icon = GFX_situation_approach_sword
+		icon_background = GFX_situation_approach_bg_red
 		potential = {
 			target.owner = { can_espionage_situation_approach_ethic_militarist = yes }
 		}
@@ -416,8 +416,8 @@ situation_espionage_resources = {
 	# (ethic) Pacifist, weak
 	approach = {
 		name = situation_espionage_resources_approach_weak_counter
-		icon = GFX_situation_approach_this_is_fine
-		icon_background = GFX_situation_approach_bg_yellow
+		icon = GFX_situation_approach_unity
+		icon_background = GFX_situation_approach_bg_green
 		potential = {
 			target.owner = { can_espionage_situation_approach_ethic_pacifist = yes }
 		}
@@ -445,7 +445,7 @@ situation_espionage_resources = {
 	# (ethic) Pacifist, strong
 	approach = {
 		name = situation_espionage_resources_approach_strong_counter
-		icon = GFX_situation_approach_this_is_fine
+		icon = GFX_situation_approach_unity
 		icon_background = GFX_situation_approach_bg_yellow
 		potential = {
 			target.owner = { can_espionage_situation_approach_ethic_pacifist = yes }
@@ -580,8 +580,147 @@ situation_espionage_crime = {
 		}
 		modifier = {
 			desc = situation_espionage_crime_approach_nothing
-			current_situation_approach = situation_espionage_resources_approach_nothing
+			current_situation_approach = situation_espionage_crime_approach_nothing
 			add = 0
 		}
+		modifier = {
+			desc = situation_espionage_crime_approach_normal_weak
+			current_situation_approach = situation_espionage_crime_approach_normal_weak
+			add = @ApproachProgressLow
+		}
+		modifier = {
+			desc = situation_espionage_crime_approach_normal_strong
+			current_situation_approach = situation_espionage_crime_approach_normal_strong
+			add = @ApproachProgressMedium
+		}
+		modifier = {
+			desc = situation_espionage_crime_approach_gestalt_weak
+			current_situation_approach = situation_espionage_crime_approach_gestalt_weak
+			add = @ApproachProgressLow
+		}
+		modifier = {
+			desc = situation_espionage_crime_approach_gestalt_strong
+			current_situation_approach = situation_espionage_crime_approach_gestalt_strong
+			add = @ApproachProgressMedium
+		}
 	}
+
+	approach = {
+		name = situation_espionage_crime_approach_nothing
+		icon = GFX_situation_approach_this_is_fine
+		icon_background = GFX_situation_approach_bg_yellow
+		potential = {
+			always = yes
+		}
+		on_select = {
+			custom_tooltip = situation_espionage_progress_none
+		}
+		ai_weight = {
+			base = 1
+		}
+	}
+
+	approach = {
+		name = situation_espionage_crime_approach_normal_weak
+		icon = GFX_situation_approach_scales
+		icon_background = GFX_situation_approach_bg_green
+		potential = {
+			owner = { is_gestalt = no }
+		}
+		on_select = {
+			custom_tooltip = situation_espionage_progress_low
+		}
+		triggered_target_modifier = {
+			planet_enforcers_unity_produces_add = 0.5
+			pop_happiness = -0.05
+		}
+		ai_weight = {
+			base = 10
+			modifier = {
+				factor = 0
+				target = { planet_crime > 80 }
+			}
+		}
+	}
+
+	approach = {
+		name = situation_espionage_crime_approach_normal_strong
+		icon = GFX_situation_approach_scales
+		icon_background = GFX_situation_approach_bg_red
+		potential = {
+			owner = { is_gestalt = no }
+		}
+		on_select = {
+			custom_tooltip = situation_espionage_progress_medium
+		}
+		triggered_target_modifier = {
+			planet_enforcers_unity_produces_add = 0.75
+			pop_happiness = -0.15
+			planet_stability_add = -5
+		}
+		ai_weight = {
+			base = 10
+			modifier = {
+				add = 10
+				target = { planet_crime < 30 }
+			}
+			modifier = {
+				factor = 0
+				target = { planet_crime > 80 }
+			}
+		}
+	}
+
+	approach = {
+		name = situation_espionage_crime_approach_gestalt_weak
+		icon = GFX_situation_approach_unity
+		icon_background = GFX_situation_approach_bg_green
+		potential = {
+			owner = { is_gestalt = yes }
+		}
+		on_select = {
+			custom_tooltip = situation_espionage_progress_low
+		}
+		triggered_target_modifier = {
+			planet_jobs_unity_produces_mult = 0.20
+			planet_stability_add = 5
+			planet_pops_upkeep_mult = 0.15
+		}
+		ai_weight = {
+			base = 10
+			modifier = {
+				factor = 0
+				target = { planet_crime > 80 }
+			}
+		}
+	}
+
+	approach = {
+		name = situation_espionage_crime_approach_gestalt_strong
+		icon = GFX_situation_approach_sword
+		icon_background = GFX_situation_approach_bg_red
+		potential = {
+			owner = { is_gestalt = yes }
+		}
+		on_select = {
+			custom_tooltip = situation_espionage_progress_medium
+		}
+		triggered_target_modifier = {
+			planet_enforcers_unity_produces_add = 1.0
+			planet_stability_add = -5
+			planet_pops_upkeep_mult = 0.15
+		}
+		ai_weight = {
+			base = 10
+			modifier = {
+				add = 10
+				target = { planet_crime < 30 }
+			}
+			modifier = {
+				factor = 0
+				target = { planet_crime > 80 }
+			}
+		}
+	}
+
 }
