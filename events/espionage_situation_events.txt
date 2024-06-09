@@ -1104,8 +1104,17 @@ espionage_operation_event = {
 		allow = {
 			# Leader needs to exists.
 			exists = event_target:operation_target.leader
-			# Leader cannot have maximum corrupt trait already.
-			NOT = { event_target:operation_target.leader = { has_trait = leader_trait_corrupt_2 } }
+			# Leader cannot have maximum corrupt trait, or opposite trait.
+			event_target:operation_target.leader = {
+				NOR = {
+					has_trait = leader_trait_corrupt_2
+					has_trait = leader_trait_righteous
+					has_trait = leader_trait_righteous_2
+					has_trait = leader_trait_martinet
+					has_trait = leader_trait_martinet_2
+					has_trait = leader_trait_martinet_3
+				}
+			}
 		}
 		# Upgrade leader's corrupt trait.
 		event_target:operation_target.leader = {
