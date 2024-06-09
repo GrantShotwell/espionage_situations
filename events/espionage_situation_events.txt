@@ -1069,7 +1069,7 @@ espionage_operation_event = {
 			limit = { espsit_operation_failed = { PROGRESS = 80 } }
 			set_espionage_operation_flag = operation_failed
 			set_variable = { which = modifier_duration value = 0 }
-			set_variable = { which = situation_progress value = 100 }
+			set_variable = { which = situation_progress value = 1 }
 			set_variable = { which = situation_multiplier value = 0 }
 		}
 		else = {
@@ -1119,7 +1119,7 @@ espionage_operation_event = {
 			}
 		}
 		if = {
-			limit = { check_variable = { which = root.situation_progress value < 40 } }
+			limit = { check_variable = { which = root.situation_progress value < 0.40 } }
 			event_target:operation_target = {
 				add_modifier = {
 					modifier = crime_wave
@@ -1143,7 +1143,7 @@ espionage_operation_event = {
 				time_multiplier = root.situation_multiplier
 			}
 			if = {
-				limit = { check_variable = { which = root.situation_progress value < 40 } }
+				limit = { check_variable = { which = root.situation_progress value < 0.40 } }
 				add_modifier = {
 					modifier = crime_wave
 					years = @IncreaseCrimeDurationYears
@@ -1166,7 +1166,7 @@ espionage_operation_event = {
 				time_multiplier = root.situation_multiplier
 			}
 			if = {
-				limit = { check_variable = { which = root.situation_progress value < 40 } }
+				limit = { check_variable = { which = root.situation_progress value < 0.40 } }
 				random_list = {
 					1 = {
 						add_modifier = {
@@ -1202,7 +1202,7 @@ espionage_operation_event = {
 		}
 		event_target:operation_target = {
 			if = {
-				limit = { check_variable = { which = root.situation_progress value < 40 } }
+				limit = { check_variable = { which = root.situation_progress value < 0.40 } }
 				add_modifier = {
 					modifier = crime_wave
 					years = @IncreaseCrimeDurationYears
@@ -1390,12 +1390,15 @@ espionage_operation_event = {
 					}
 				}
 				# Defender discovers attacker.
-				0 = {
+				100 = {
 					modifier = {
-						add = root.situation_progress
+						mult = root.situation_progress
+					}
+					modifier = {
+						mult = 0
 						check_variable_arithmetic = {
 							which = root.situation_progress
-							value > 20
+							value < 0.20
 						}
 					}
 					modifier = {
