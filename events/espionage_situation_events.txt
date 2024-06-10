@@ -408,6 +408,7 @@ espionage_operation_event = {
 				save_event_target_as = espionage_situation
 			}
 		}
+		# TODO: Save situation progress.
 		# Count stolen resources.
 		if = {
 			limit = { exists = event_target:espionage_situation }
@@ -1447,22 +1448,22 @@ planet_event = {
 
 	option = {
 		name = situation_operation.2901.option.normal_crackdown
-		allow = { owner = { is_gestalt = no } }
+		trigger = { owner = { is_gestalt = no } }
 	}
 
 	option = {
 		name = situation_operation.2901.option.normal_fired
-		allow = { owner = { is_gestalt = no } }
+		trigger = { owner = { is_gestalt = no } }
 	}
 
 	option = {
 		name = situation_operation.2901.option.gestalt_crackdown
-		allow = { owner = { is_gestalt = yes } }
+		trigger = { owner = { is_gestalt = yes } }
 	}
 
 	option = {
 		name = situation_operation.2901.option.gestalt_soldiers
-		allow = { owner = { is_gestalt = yes } }
+		trigger = { owner = { is_gestalt = yes } }
 	}
 
 	after = {
@@ -1499,22 +1500,22 @@ planet_event = {
 
 	option = {
 		name = situation_operation.2902.option.normal_crackdown
-		allow = { owner = { is_gestalt = no } }
+		trigger = { owner = { is_gestalt = no } }
 	}
 
 	option = {
 		name = situation_operation.2902.option.normal_fired
-		allow = { owner = { is_gestalt = no } }
+		trigger = { owner = { is_gestalt = no } }
 	}
 
 	option = {
 		name = situation_operation.2902.option.gestalt_crackdown
-		allow = { owner = { is_gestalt = yes } }
+		trigger = { owner = { is_gestalt = yes } }
 	}
 
 	option = {
 		name = situation_operation.2902.option.gestalt_soldiers
-		allow = { owner = { is_gestalt = yes } }
+		trigger = { owner = { is_gestalt = yes } }
 	}
 
 	after = {
