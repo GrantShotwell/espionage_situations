@@ -8,6 +8,8 @@
 # - Spawn Privateers+ (stronger, multiple locations)
 # - Diplomatic Incident+ (break apart federations, allies)
 # - Steal branch office (ends with bidding war)
+# - Decrease health/damage of lang armies
+# - Gain intel
 
 @diff_t0 = 4
 @diff_t1 = 5
