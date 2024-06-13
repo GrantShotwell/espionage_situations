@@ -363,19 +363,22 @@ espionage_operation_event = {
 	option = {
 		name = situation_operation.1900.option.fail
 		trigger = {
-			NOT = { exists = event_target:espionage_situation }
+			has_espionage_operation_flag = operation_failed
 		}
 	}
 
 	option = {
 		name = situation_operation.1900.option.take
-		allow = {
-			exists = event_target:espionage_situation
+		trigger = {
+			NOT = { has_espionage_operation_flag = operation_failed }
 		}
 	}
 
 	option = {
 		name = situation_operation.1900.option.destroy
+		trigger = {
+			NOT = { has_espionage_operation_flag = operation_failed }
+		}
 		allow = {
 			exists = event_target:espionage_situation
 			owner = {
@@ -383,12 +386,12 @@ espionage_operation_event = {
 				is_pacifist = no
 			}
 			has_espionage_asset_sabotage = yes
-			event_target:espionage_situation = { situation_progress < 40 }
+			check_variable = { which = situation_progress value < 0.40 }
 		}
 		destroy_espionage_asset_sabotage = yes
 		owner = {
 			add_resource = {
-				influence = -100
+				influence = -50
 			}
 		}
 		event_target:operation_target = {
@@ -408,7 +411,24 @@ espionage_operation_event = {
 				save_event_target_as = espionage_situation
 			}
 		}
-		# TODO: Save situation progress.
+		# Check situation progress.
+		if = {
+			limit = { espsit_operation_failed = { PROGRESS = 80 } }
+			set_espionage_operation_flag = operation_failed
+			set_variable = { which = situation_progress value = 1 }
+			set_variable = { which = situation_multiplier value = 0 }
+		}
+		else = {
+			# Set variables from situation progress.
+			set_variable = {
+				which = situation_progress
+				value = value:espionage_situation_progress
+			}
+			set_variable = {
+				which = situation_multiplier
+				value = value:espionage_situation_multiplier
+			}
+		}
 		# Count stolen resources.
 		if = {
 			limit = { exists = event_target:espionage_situation }
@@ -583,65 +603,14 @@ espionage_operation_event = {
 		# Add negative modifier based on situation progress.
 		if = {
 			limit = {
-				exists = event_target:operation_target
-				exists = event_target:espionage_situation
-				event_target:espionage_situation = { situation_progress < 80 }
+				NOT = { has_espionage_operation_flag = operation_failed }
+				check_variable = { which = situation_progress value < 0.80 }
 			}
 			event_target:operation_target = {
-				if = {
-					limit = { event_target:espionage_situation = { situation_progress > 70 } }
-					add_modifier = {
-						modifier = espsit_stolen_resources_10
-						months = @StealResourcesAmountMonths
-					}
-				}
-				else_if = {
-					limit = { event_target:espionage_situation = { situation_progress > 60 } }
-					add_modifier = {
-						modifier = espsit_stolen_resources_10
-						months = @StealResourcesAmountMonths
-					}
-				}
-				else_if = {
-					limit = { event_target:espionage_situation = { situation_progress > 50 } }
-					add_modifier = {
-						modifier = espsit_stolen_resources_20
-						months = @StealResourcesAmountMonths
-					}
-				}
-				else_if = {
-					limit = { event_target:espionage_situation = { situation_progress > 40 } }
-					add_modifier = {
-						modifier = espsit_stolen_resources_30
-						months = @StealResourcesAmountMonths
-					}
-				}
-				else_if = {
-					limit = { event_target:espionage_situation = { situation_progress > 30 } }
-					add_modifier = {
-						modifier = espsit_stolen_resources_40
-						months = @StealResourcesAmountMonths
-					}
-				}
-				else_if = {
-					limit = { event_target:espionage_situation = { situation_progress > 20 } }
-					add_modifier = {
-						modifier = espsit_stolen_resources_40
-						months = @StealResourcesAmountMonths
-					}
-				}
-				else_if = {
-					limit = { event_target:espionage_situation = { situation_progress > 10 } }
-					add_modifier = {
-						modifier = espsit_stolen_resources_50
-						months = @StealResourcesAmountMonths
-					}
-				}
-				else = {
-					add_modifier = {
-						modifier = espsit_stolen_resources_50
-						months = @StealResourcesAmountMonths
-					}
+				add_modifier = {
+					modifier = espsit_stolen_resources
+					months = @StealResourcesAmountMonths
+					multiplier = root.situation_multiplier
 				}
 			}
 		}
